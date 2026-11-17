@@ -77,6 +77,11 @@
 
       <!-- Navigation Actions -->
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <span id="cloud-sync-pill" class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-extrabold bg-slate-800 text-amber-300 border border-slate-700">
+          <span id="cloud-sync-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span id="cloud-sync-text">Connecting...</span>
+        </span>
+
         <button
           type="button"
           onclick="copyRoomInviteLink()"
@@ -227,7 +232,7 @@
           Choose Your Live UPPSC Poll Quiz (120 Questions Each)
         </h1>
         <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
-          Enter your name and room code below, then launch either <strong>Quiz 1 (120 Questions)</strong> or <strong>Quiz 2 (120 Questions)</strong>. Every quiz has <strong>4 Sections × 30 Questions</strong>, a <strong>40-second timer</strong> per question with instant reveal, raw people vote counts (no percentages), and a <strong>Pause / Auto-Save</strong> engine so you can resume right where you left off anytime.
+          Enter your name and room code below, then launch either <strong>Quiz 1 (120 Questions)</strong> or <strong>Quiz 2 (120 Questions)</strong>. Every quiz has <strong>4 Sections × 30 Questions</strong>, a <strong>40-second timer</strong> per question with instant reveal, raw people vote counts (no percentages), live voter name badges under each option, and a <strong>Pause / Auto-Save</strong> engine so you can resume right where you left off anytime.
         </p>
 
         <!-- Name & Room Input Strip -->
@@ -255,7 +260,7 @@
                 type="text"
                 id="room-code-input"
                 maxlength="20"
-                value="UPPSC-240"
+                value="UPPSC-LIVE"
                 class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-sky-700 font-mono text-sm font-extrabold uppercase focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
               <button
@@ -288,7 +293,7 @@
         <div class="flex items-center justify-between gap-2">
           <div>
             <h3 class="text-sm sm:text-base font-extrabold text-slate-900">Common Room Scoreboard (Quiz 1 &amp; Quiz 2)</h3>
-            <p id="entry-room-subtitle" class="text-xs text-slate-500">Room: UPPSC-240</p>
+            <p id="entry-room-subtitle" class="text-xs text-slate-500">Room: UPPSC-LIVE</p>
           </div>
           <button
             type="button"
@@ -449,7 +454,7 @@
           </h2>
         </div>
 
-        <!-- Poll Options (Shows RAW PEOPLE COUNTS, NO PERCENTAGES) -->
+        <!-- Poll Options (Shows RAW PEOPLE COUNTS + VOTER NAME PILLS, NO PERCENTAGES) -->
         <div id="poll-options-box" class="px-4 sm:px-6 py-3 space-y-2.5"></div>
 
         <!-- Instant Explanation Box -->
@@ -466,9 +471,19 @@
         </div>
 
         <!-- Poll Footer -->
-        <div class="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
           <span id="poll-total-people" class="font-bold text-slate-700">0 people answered this question</span>
-          <span id="poll-hint-text" class="font-semibold text-sky-600">Select an option (40s limit)</span>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              onclick="simulateFriendVoteOnCurrentQ()"
+              class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-[11px] font-extrabold transition cursor-pointer"
+              title="Simulate a live friend answering this question"
+            >
+              + Test Friend Vote
+            </button>
+            <span id="poll-hint-text" class="font-semibold text-sky-600">Select an option (40s limit)</span>
+          </div>
         </div>
       </article>
 
@@ -844,7 +859,7 @@
           ["The 'Chipko Movement' began in 1973 in Mandal village of Chamoli district (present-day Uttarakhand) under the leadership of:", ["Medha Patkar", "Chandi Prasad Bhatt and Sunderlal Bahuguna", "Pandurang Hegde", "Baba Amte"], 1, "Chandi Prasad Bhatt (Dasholi Gram Swarajya Sangh) and Sunderlal Bahuguna led the Chipko Movement, with Gaura Devi leading the Reni village action in 1974."],
           ["The 'Appiko Movement' (1983), the southern counterpart of Chipko, was launched in Uttara Kannada district of Karnataka by:", ["Sunderlal Bahuguna", "Pandurang Hegde", "Salim Ali", "M.S. Swaminathan"], 1, "Pandurang Hegde launched the Appiko ('hug' in Kannada) Movement in September 1983 in the Western Ghats of Karnataka."],
           ["The 'Silent Valley Movement' (1970s–1983) successfully prevented a hydroelectric dam project to save tropical evergreen rainforests in:", ["Nilgiri Hills, Tamil Nadu", "Palakkad district, Kerala", "Coorg, Karnataka", "Silent Hills, Meghalaya"], 1, "Silent Valley National Park in Palakkad district (Kerala) is home to the endangered Lion-tailed Macaque."],
-          ["The ' Stockholm Conference' (UN Conference on the Human Environment, June 1972), often called the Magna Carta of Environmentalism, led to the creation of:", ["IPCC", "UNEP (United Nations Environment Programme)", "IUCN", "Global Environment Facility (GEF)"], 1, "UNEP (headquartered in Nairobi, Kenya) was established as a result of the June 1972 Stockholm Conference."],
+          ["The 'Stockholm Conference' (UN Conference on the Human Environment, June 1972), often called the Magna Carta of Environmentalism, led to the creation of:", ["IPCC", "UNEP (United Nations Environment Programme)", "IUCN", "Global Environment Facility (GEF)"], 1, "UNEP (headquartered in Nairobi, Kenya) was established as a result of the June 1972 Stockholm Conference."],
           ["Which international organization publishes the 'Red List of Threatened Species'?", ["WWF", "IUCN", "UNEP", "CITES"], 1, "Founded in 1948 and headquartered in Gland, Switzerland, IUCN compiles the global IUCN Red List of Threatened Species."]
         ],
         // QUIZ 2 — SECTION 4: Modern India Reforms & UPPSC Chronology PYQs (30 Questions)
@@ -931,43 +946,49 @@
     let broadcastChannel = null;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const initialRoom = (urlParams.get('room') || 'UPPSC-240').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 20) || 'UPPSC-240';
+    const initialRoom = (urlParams.get('room') || 'UPPSC-LIVE').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 20) || 'UPPSC-LIVE';
 
     function getOrCreatePersistentPlayerId() {
       try {
-        let pid = localStorage.getItem('uppsc_persistent_player_id');
+        let pid = localStorage.getItem('uppsc_player_uid');
         if (!pid) {
-          pid = `usr_${(window.crypto && crypto.randomUUID) ? crypto.randomUUID().slice(0, 8) : Math.random().toString(36).slice(2, 10)}`;
-          localStorage.setItem('uppsc_persistent_player_id', pid);
+          pid = 'usr_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+          localStorage.setItem('uppsc_player_uid', pid);
         }
         return pid;
       } catch (_) {
-        return `usr_${Math.random().toString(36).slice(2, 10)}`;
+        return 'usr_' + Math.random().toString(36).slice(2, 10);
       }
     }
 
     const state = {
-      joined: false,
-      isPaused: false,
+      playerId: getOrCreatePersistentPlayerId(),
       view: 'entry',
       roomCode: initialRoom,
-      playerId: getOrCreatePersistentPlayerId(),
       userName: '',
       activeQuizId: 1,
-      currentSection: 0,
+      joined: false,
+      isPaused: false,
       currentIndex: 0,
       answers: {},
-      totalElapsedSeconds: 0,
-      totalClockInterval: null,
       qSecondsLeft: 40,
       qTimerInterval: null,
+      totalElapsedSeconds: 0,
+      totalTimerInterval: null,
       scoreboardFilter: 'all',
+      activeDetailDocId: null,
       liveUsers: [],
       allAttempts: [],
       voteCounts: {
         1: Array.from({ length: 120 }, () => [0, 0, 0, 0]),
         2: Array.from({ length: 120 }, () => [0, 0, 0, 0])
       },
+      voteVoters: {
+        1: Array.from({ length: 120 }, () => [[], [], [], []]),
+        2: Array.from({ length: 120 }, () => [[], [], [], []])
+      },
+      knownAnswerKeys: new Set(),
+      initialSnapshotLoaded: false,
       heartbeatInterval: null
     };
 
@@ -975,78 +996,47 @@
       return QUESTION_SETS[state.activeQuizId] || QUESTION_SETS[1];
     }
 
-    function getInitials(name) {
-      const parts = String(name || 'UP').trim().split(/\s+/);
-      if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
-      return String(name || 'UP').slice(0, 2).toUpperCase();
-    }
-
-    function formatDuration(sec) {
-      const s = Math.max(0, Math.floor(sec || 0));
-      const mins = Math.floor(s / 60);
-      const rem = s % 60;
-      return `${String(mins).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
-    }
-
-    function escapeHtml(str) {
-      if (str === null || str === undefined) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    // -------------------------------------------------------------------------
-    // LOCAL SAVE / LOAD & CROSS-TAB ROOM SYNC HELPERS
-    // -------------------------------------------------------------------------
-    function getSavedProgressStorageKey(roomCode, quizId) {
-      return `uppsc_saved_progress_${roomCode}_quiz${quizId}`;
+    function getProgressStorageKey(quizId) {
+      return `uppsc_saved_progress_${state.roomCode}_quiz_${quizId}`;
     }
 
     function getLocalRoomStoreKey(roomCode) {
-      return `uppsc_room_store_${roomCode}`;
+      return `uppsc_room_live_store_${roomCode}`;
     }
 
-    function saveCurrentQuizProgressLocally(explicitStatus = null) {
-      if (!state.joined) return;
-      const quizId = state.activeQuizId;
-      const answeredCount = Object.values(state.answers).filter((v) => Number(v) >= 0).length;
-      const status = explicitStatus || (answeredCount >= 120 ? 'Completed' : state.isPaused ? 'Paused' : 'In Progress');
-
-      const snapshot = {
-        userName: state.userName,
-        roomCode: state.roomCode,
-        quizId,
-        currentIndex: state.currentIndex,
-        currentSection: Math.floor(state.currentIndex / 30),
-        qSecondsLeft: state.qSecondsLeft > 0 ? state.qSecondsLeft : 40,
-        answers: state.answers,
-        totalElapsedSeconds: state.totalElapsedSeconds,
-        status,
-        savedAt: Date.now()
-      };
-
+    function getSavedQuizProgress(quizId) {
       try {
-        localStorage.setItem(getSavedProgressStorageKey(state.roomCode, quizId), JSON.stringify(snapshot));
-        if (state.userName) localStorage.setItem('uppsc_last_username', state.userName);
-      } catch (_) {}
-    }
-
-    function loadSavedQuizProgress(roomCode, quizId) {
-      try {
-        const raw = localStorage.getItem(getSavedProgressStorageKey(roomCode, quizId));
+        const raw = localStorage.getItem(getProgressStorageKey(quizId));
         if (!raw) return null;
-        return JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== 'object') return null;
+        return parsed;
       } catch (_) {
         return null;
       }
     }
 
-    function clearSavedQuizProgress(roomCode, quizId) {
+    function saveCurrentQuizProgressLocally(explicitStatus = null) {
+      if (!state.joined) return;
       try {
-        localStorage.removeItem(getSavedProgressStorageKey(roomCode, quizId));
+        const payload = {
+          quizId: state.activeQuizId,
+          roomCode: state.roomCode,
+          userName: state.userName,
+          currentIndex: state.currentIndex,
+          answers: state.answers,
+          qSecondsLeft: state.qSecondsLeft,
+          totalElapsedSeconds: state.totalElapsedSeconds,
+          status: explicitStatus || (state.isPaused ? 'Paused' : 'In Progress'),
+          updatedAt: Date.now()
+        };
+        localStorage.setItem(getProgressStorageKey(state.activeQuizId), JSON.stringify(payload));
+      } catch (_) {}
+    }
+
+    function clearSavedQuizProgressLocally(quizId) {
+      try {
+        localStorage.removeItem(getProgressStorageKey(quizId));
       } catch (_) {}
     }
 
@@ -1067,6 +1057,116 @@
       } catch (_) {}
     }
 
+    function updateSyncStatusBadge(isCloudLive) {
+      const pill = document.getElementById('cloud-sync-pill');
+      const dot = document.getElementById('cloud-sync-dot');
+      const txt = document.getElementById('cloud-sync-text');
+      const entryBadge = document.getElementById('sync-mode-badge');
+      if (isCloudLive) {
+        if (pill) pill.className = 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-extrabold bg-emerald-950/80 text-emerald-300 border border-emerald-700/60';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+        if (txt) txt.textContent = 'Cloud Sync Live';
+        if (entryBadge) entryBadge.textContent = 'Cloud Sync Live • Multi-Device & Tab Sync';
+      } else {
+        if (pill) pill.className = 'hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-extrabold bg-slate-800 text-amber-300 border border-slate-700';
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        if (txt) txt.textContent = 'Local Tab Sync';
+        if (entryBadge) entryBadge.textContent = 'Local Tab Sync • Auto-Save Ready';
+      }
+    }
+
+    function processIncomingAttemptFeed(rawDocsMap) {
+      const counts = {
+        1: Array.from({ length: 120 }, () => [0, 0, 0, 0]),
+        2: Array.from({ length: 120 }, () => [0, 0, 0, 0])
+      };
+      const voters = {
+        1: Array.from({ length: 120 }, () => [[], [], [], []]),
+        2: Array.from({ length: 120 }, () => [[], [], [], []])
+      };
+      const records = [];
+      const letters = ['A', 'B', 'C', 'D'];
+      const myPrefix = `${getEffectiveUserId()}_`;
+
+      Object.entries(rawDocsMap).forEach(([docId, data]) => {
+        const qId = Number(data.quizId || data.attemptNumber) === 2 ? 2 : 1;
+        const ansMap = data.answers || {};
+        const qList = QUESTION_SETS[qId];
+        const voterName = data.userName || 'Participant';
+        const isMe = docId.startsWith(myPrefix);
+
+        Object.entries(ansMap).forEach(([qIdxStr, optVal]) => {
+          const qi = Number(qIdxStr);
+          const oi = Number(optVal);
+          if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
+            counts[qId][qi][oi] += 1;
+            voters[qId][qi][oi].push({
+              docId,
+              name: voterName,
+              isMe
+            });
+
+            const feedKey = `${docId}:${qId}:${qi}:${oi}`;
+            if (state.initialSnapshotLoaded && !state.knownAnswerKeys.has(feedKey) && !isMe && state.joined) {
+              showToast(`${voterName} selected Option ${letters[oi]} on Quiz ${qId} Q.${qi + 1}`, 'info');
+            }
+            state.knownAnswerKeys.add(feedKey);
+          }
+        });
+
+        records.push(computeAttemptSummary(docId, data, qList));
+      });
+
+      const myDocKey = `${getEffectiveUserId()}_quiz${state.activeQuizId}`;
+      if (state.joined && !rawDocsMap[myDocKey]) {
+        const localRec = computeAttemptSummary(
+          myDocKey,
+          {
+            userName: state.userName,
+            quizId: state.activeQuizId,
+            answers: state.answers,
+            timeTakenSeconds: state.totalElapsedSeconds,
+            status: state.isPaused ? 'Paused' : 'Live',
+            updatedAt: Date.now()
+          },
+          getActiveQuestionList()
+        );
+        Object.entries(state.answers).forEach(([qIdxStr, optVal]) => {
+          const qi = Number(qIdxStr);
+          const oi = Number(optVal);
+          if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
+            counts[state.activeQuizId][qi][oi] += 1;
+            voters[state.activeQuizId][qi][oi].push({
+              docId: myDocKey,
+              name: state.userName,
+              isMe: true
+            });
+          }
+        });
+        records.push(localRec);
+      }
+
+      records.sort((a, b) => {
+        if (Math.abs(b.netScore - a.netScore) > 0.001) return b.netScore - a.netScore;
+        if (b.correct !== a.correct) return b.correct - a.correct;
+        return (a.timeTakenSeconds || 99999) - (b.timeTakenSeconds || 99999);
+      });
+
+      state.initialSnapshotLoaded = true;
+      state.voteCounts = counts;
+      state.voteVoters = voters;
+      state.allAttempts = records;
+      document.getElementById('header-scoreboard-count').textContent = records.length;
+
+      renderDashboardCards();
+      renderEntryMiniScoreboard();
+      if (state.view === 'poll') renderPollQuestion(true);
+      if (state.view === 'scoreboard') renderScoreboard();
+      if (state.view === 'detail' && state.activeDetailDocId) {
+        window.openAttemptDetail(state.activeDetailDocId, true);
+      }
+    }
+
     function hydrateFromLocalRoomStore(roomCode) {
       try {
         const key = getLocalRoomStoreKey(roomCode);
@@ -1084,58 +1184,25 @@
           });
         }
         state.liveUsers = active;
-
-        const counts = {
-          1: Array.from({ length: 120 }, () => [0, 0, 0, 0]),
-          2: Array.from({ length: 120 }, () => [0, 0, 0, 0])
-        };
-        const records = [];
-
-        Object.entries(store.attempts || {}).forEach(([docId, data]) => {
-          const qId = Number(data.quizId) === 2 ? 2 : 1;
-          const ansMap = data.answers || {};
-          Object.entries(ansMap).forEach(([qIdxStr, optVal]) => {
-            const qi = Number(qIdxStr);
-            const oi = Number(optVal);
-            if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
-              counts[qId][qi][oi] += 1;
-            }
-          });
-          records.push(computeAttemptSummary(docId, data, QUESTION_SETS[qId]));
-        });
-
-        records.sort((a, b) => {
-          if (Math.abs(b.netScore - a.netScore) > 0.001) return b.netScore - a.netScore;
-          if (b.correct !== a.correct) return b.correct - a.correct;
-          return (a.timeTakenSeconds || 99999) - (b.timeTakenSeconds || 99999);
-        });
-
-        state.voteCounts = counts;
-        state.allAttempts = records;
-        document.getElementById('header-scoreboard-count').textContent = records.length;
-
         renderLivePresenceStrip();
-        renderDashboardCards();
-        renderEntryMiniScoreboard();
-        if (state.view === 'poll') renderPollQuestion(true);
-        if (state.view === 'scoreboard') renderScoreboard();
+        processIncomingAttemptFeed(store.attempts || {});
       } catch (_) {}
     }
 
     window.addEventListener('beforeunload', () => {
       if (state.joined) {
-        saveCurrentQuizProgressLocally(state.isPaused ? 'Paused' : 'In Progress');
+        saveCurrentQuizProgressLocally('Paused');
       }
     });
 
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden' && state.joined) {
+      if (document.hidden && state.joined) {
         saveCurrentQuizProgressLocally(state.isPaused ? 'Paused' : 'In Progress');
       }
     });
 
     window.addEventListener('storage', (e) => {
-      if (e.key === getLocalRoomStoreKey(state.roomCode) && !db) {
+      if (e.key === getLocalRoomStoreKey(state.roomCode)) {
         hydrateFromLocalRoomStore(state.roomCode);
       }
     });
@@ -1143,6 +1210,7 @@
     async function initApp() {
       document.getElementById('room-code-input').value = state.roomCode;
       document.getElementById('entry-room-subtitle').textContent = `Room: ${state.roomCode}`;
+      document.getElementById('header-room-subtitle').textContent = `Room: ${state.roomCode} • 4 Sections × 30 Qs`;
 
       try {
         const savedName = localStorage.getItem('uppsc_last_username') || '';
@@ -1156,7 +1224,7 @@
         if ('BroadcastChannel' in window) {
           broadcastChannel = new BroadcastChannel('uppsc_240_live_channel');
           broadcastChannel.onmessage = (ev) => {
-            if (ev.data && ev.data.roomCode === state.roomCode && !db) {
+            if (ev.data && ev.data.roomCode === state.roomCode) {
               hydrateFromLocalRoomStore(state.roomCode);
             }
           };
@@ -1167,6 +1235,7 @@
       hydrateFromLocalRoomStore(state.roomCode);
 
       if (!firebaseConfig || !firebaseConfig.apiKey) {
+        updateSyncStatusBadge(false);
         return;
       }
 
@@ -1182,11 +1251,15 @@
         }
         currentUser = auth.currentUser;
         if (currentUser) {
+          updateSyncStatusBadge(true);
           subscribeToRoom(state.roomCode);
+        } else {
+          updateSyncStatusBadge(false);
         }
       } catch (err) {
         console.warn('Running in offline/local sync mode:', err);
         db = null;
+        updateSyncStatusBadge(false);
       }
     }
 
@@ -1195,6 +1268,8 @@
     }
 
     function subscribeToRoom(roomCode) {
+      state.initialSnapshotLoaded = false;
+      state.knownAnswerKeys = new Set();
       if (!db || !currentUser) {
         hydrateFromLocalRoomStore(roomCode);
         return;
@@ -1202,7 +1277,7 @@
       if (unsubPresence) unsubPresence();
       if (unsubAttempts) unsubAttempts();
 
-      const presenceCol = collection(db, 'artifacts', appId, 'public', 'data', `uppsc240_live_${roomCode}`);
+      const presenceCol = collection(db, 'artifacts', appId, 'public', 'data', 'rooms', roomCode, 'presence');
       unsubPresence = onSnapshot(
         presenceCol,
         (snap) => {
@@ -1231,136 +1306,79 @@
         (err) => console.error('Presence snapshot error:', err)
       );
 
-      const attemptsCol = collection(db, 'artifacts', appId, 'public', 'data', `uppsc240_attempts_${roomCode}`);
+      const attemptsCol = collection(db, 'artifacts', appId, 'public', 'data', 'rooms', roomCode, 'participants');
       unsubAttempts = onSnapshot(
         attemptsCol,
         (snap) => {
-          const records = [];
-          const counts = {
-            1: Array.from({ length: 120 }, () => [0, 0, 0, 0]),
-            2: Array.from({ length: 120 }, () => [0, 0, 0, 0])
-          };
-
+          const rawMap = {};
           snap.forEach((d) => {
-            const data = d.data();
-            const qId = Number(data.quizId || data.attemptNumber) === 2 ? 2 : 1;
-            const ansMap = data.answers || {};
-            const qList = QUESTION_SETS[qId];
-
-            Object.entries(ansMap).forEach(([qIdxStr, optVal]) => {
-              const qi = Number(qIdxStr);
-              const oi = Number(optVal);
-              if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
-                counts[qId][qi][oi] += 1;
-              }
-            });
-
-            records.push(computeAttemptSummary(d.id, data, qList));
+            rawMap[d.id] = d.data();
           });
-
-          const myDocKey = `${getEffectiveUserId()}_quiz${state.activeQuizId}`;
-          if (state.joined && !records.some((r) => r.docId === myDocKey)) {
-            const localRec = computeAttemptSummary(
-              myDocKey,
-              {
-                userName: state.userName,
-                quizId: state.activeQuizId,
-                answers: state.answers,
-                timeTakenSeconds: state.totalElapsedSeconds,
-                status: state.isPaused ? 'Paused' : 'Live',
-                updatedAt: Date.now()
-              },
-              getActiveQuestionList()
-            );
-            Object.entries(state.answers).forEach(([qIdxStr, optVal]) => {
-              const qi = Number(qIdxStr);
-              const oi = Number(optVal);
-              if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
-                counts[state.activeQuizId][qi][oi] += 1;
-              }
-            });
-            records.push(localRec);
-          }
-
-          records.sort((a, b) => {
-            if (Math.abs(b.netScore - a.netScore) > 0.001) return b.netScore - a.netScore;
-            if (b.correct !== a.correct) return b.correct - a.correct;
-            return (a.timeTakenSeconds || 99999) - (b.timeTakenSeconds || 99999);
-          });
-
-          state.voteCounts = counts;
-          state.allAttempts = records;
-          document.getElementById('header-scoreboard-count').textContent = records.length;
-
-          renderDashboardCards();
-          renderEntryMiniScoreboard();
-          if (state.view === 'poll') renderPollQuestion(true);
-          if (state.view === 'scoreboard') renderScoreboard();
+          processIncomingAttemptFeed(rawMap);
         },
         (err) => console.error('Attempts snapshot error:', err)
       );
     }
 
     function computeAttemptSummary(docId, raw, qList) {
-      const ansMap = raw.answers || {};
-      const quizId = Number(raw.quizId || raw.attemptNumber) === 2 ? 2 : 1;
+      const ans = raw.answers || {};
       let correct = 0;
       let wrong = 0;
-      let answered = 0;
-      const secScores = [0, 0, 0, 0];
+      const secCorrect = [0, 0, 0, 0];
 
-      Object.entries(ansMap).forEach(([qIdxStr, optVal]) => {
+      Object.entries(ans).forEach(([qIdxStr, optVal]) => {
         const qi = Number(qIdxStr);
         const oi = Number(optVal);
-        if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
-          answered++;
-          const secIdx = Math.floor(qi / 30);
-          if (qList[qi].correct === oi) {
-            correct++;
-            secScores[secIdx] = Number((secScores[secIdx] + 1.33).toFixed(2));
-          } else {
-            wrong++;
-            secScores[secIdx] = Number((secScores[secIdx] - 0.33).toFixed(2));
-          }
+        const qObj = qList[qi];
+        if (!qObj) return;
+        if (oi === qObj.correct) {
+          correct++;
+          secCorrect[qObj.sectionIdx]++;
+        } else if (oi >= 0 && oi <= 3) {
+          wrong++;
         }
       });
 
       const netScore = Number((correct * 1.33 - wrong * 0.33).toFixed(2));
+      const answeredCount = Object.keys(ans).length;
+      const qId = Number(raw.quizId || raw.attemptNumber) === 2 ? 2 : 1;
       return {
         docId,
+        uid: raw.uid || docId.split('_')[0],
         userName: raw.userName || 'Participant',
-        quizId,
-        status: raw.status || (answered >= 120 ? 'Completed' : 'In Progress'),
-        answers: ansMap,
-        answered,
+        quizId: qId,
+        status: raw.status || 'Live',
+        answers: ans,
         correct,
         wrong,
-        secScores,
+        answeredCount,
+        secCorrect,
         netScore,
         timeTakenSeconds: Number(raw.timeTakenSeconds || 0),
         updatedAt: raw.updatedAt || Date.now()
       };
     }
 
-    async function broadcastPresence() {
+    async function sendPresenceHeartbeat() {
       if (!state.joined) return;
       const uid = getEffectiveUserId();
-      const now = Date.now();
       const meObj = {
         id: uid,
         userName: state.userName,
         quizId: state.activeQuizId,
         currentQ: state.currentIndex + 1,
         isPaused: state.isPaused,
-        lastSeen: now
+        lastSeen: Date.now()
       };
-      state.liveUsers = [meObj, ...state.liveUsers.filter((u) => u.id !== uid)];
+      const idx = state.liveUsers.findIndex((u) => u.id === uid);
+      if (idx >= 0) state.liveUsers[idx] = meObj;
+      else state.liveUsers.unshift(meObj);
       renderLivePresenceStrip();
       persistLocalRoomState(state.roomCode, meObj, null);
 
       if (!db || !currentUser) return;
       try {
-        const presRef = doc(db, 'artifacts', appId, 'public', 'data', `uppsc240_live_${state.roomCode}`, uid);
+        const presRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', state.roomCode, 'presence', uid);
         await setDoc(presRef, meObj, { merge: true });
       } catch (_) {}
     }
@@ -1371,6 +1389,7 @@
       const statusText = explicitStatus || (state.isPaused ? 'Paused' : 'Live');
       const payload = {
         docId: docKey,
+        uid: getEffectiveUserId(),
         userName: state.userName,
         quizId: state.activeQuizId,
         status: statusText,
@@ -1384,46 +1403,95 @@
       saveCurrentQuizProgressLocally(statusText);
       persistLocalRoomState(state.roomCode, null, payload);
 
-      const localSummary = computeAttemptSummary(docKey, payload, getActiveQuestionList());
-      const others = state.allAttempts.filter((r) => r.docId !== docKey);
-      const merged = [...others, localSummary].sort((a, b) => {
-        if (Math.abs(b.netScore - a.netScore) > 0.001) return b.netScore - a.netScore;
-        return (a.timeTakenSeconds || 99999) - (b.timeTakenSeconds || 99999);
-      });
-      state.allAttempts = merged;
-      document.getElementById('header-scoreboard-count').textContent = merged.length;
+      if (!db || !currentUser) {
+        hydrateFromLocalRoomStore(state.roomCode);
+        return;
+      }
 
-      if (!db || !currentUser) return;
       try {
-        const attRef = doc(db, 'artifacts', appId, 'public', 'data', `uppsc240_attempts_${state.roomCode}`, docKey);
+        const attRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', state.roomCode, 'participants', docKey);
         await setDoc(attRef, payload, { merge: true });
       } catch (err) {
         console.error('Sync attempt error:', err);
       }
     }
 
+    window.simulateFriendVoteOnCurrentQ = async function () {
+      const sampleFriends = ['Rahul Sharma', 'Priya Singh', 'Amitabh Tiwari', 'Neha Gupta', 'Vikram Yadav'];
+      const friendName = sampleFriends[Math.floor(Math.random() * sampleFriends.length)];
+      const friendId = `sim_${friendName.toLowerCase().replace(/\s+/g, '_')}`;
+      const qId = state.activeQuizId;
+      const qIdx = state.currentIndex;
+      const randomOpt = Math.floor(Math.random() * 4);
+      const docKey = `${friendId}_quiz${qId}`;
+
+      let existingAnswers = {};
+      const existingRec = state.allAttempts.find((r) => r.docId === docKey);
+      if (existingRec && existingRec.answers) {
+        existingAnswers = { ...existingRec.answers };
+      }
+      existingAnswers[qIdx] = randomOpt;
+
+      const payload = {
+        docId: docKey,
+        uid: friendId,
+        userName: friendName,
+        quizId: qId,
+        status: 'Live',
+        currentIndex: qIdx,
+        answers: existingAnswers,
+        timeTakenSeconds: (existingRec ? existingRec.timeTakenSeconds : 0) + 18,
+        updatedAt: Date.now()
+      };
+
+      const presObj = {
+        id: friendId,
+        userName: friendName,
+        quizId: qId,
+        currentQ: qIdx + 1,
+        isPaused: false,
+        lastSeen: Date.now()
+      };
+
+      persistLocalRoomState(state.roomCode, presObj, payload);
+
+      if (db && currentUser) {
+        try {
+          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'rooms', state.roomCode, 'presence', friendId), presObj, { merge: true });
+          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'rooms', state.roomCode, 'participants', docKey), payload, { merge: true });
+        } catch (_) {}
+      } else {
+        hydrateFromLocalRoomStore(state.roomCode);
+      }
+    };
+
     function renderLivePresenceStrip() {
       const strip = document.getElementById('live-users-strip');
       const countLbl = document.getElementById('live-users-count-label');
-      countLbl.textContent = `Live Users (${state.liveUsers.length}):`;
+      const users = state.liveUsers;
+      countLbl.textContent = `Live Users (${users.length}):`;
 
-      if (state.liveUsers.length === 0) {
-        strip.innerHTML = `<span class="text-xs text-slate-400 italic">No active users yet in Room ${escapeHtml(state.roomCode)}</span>`;
+      if (users.length === 0) {
+        strip.innerHTML = `<span class="text-xs text-slate-400 italic">Enter your name and launch Quiz 1 or Quiz 2 to go live...</span>`;
         return;
       }
 
-      strip.innerHTML = state.liveUsers
+      const myUid = getEffectiveUserId();
+      strip.innerHTML = users
         .map((u) => {
-          const isMe = u.id === getEffectiveUserId();
-          const qNum = Number(u.quizId || u.attemptNumber) === 2 ? 2 : 1;
-          const statusTag = u.isPaused ? `⏸ Paused (Q.${u.currentQ || 1})` : `Quiz ${qNum} • Q.${u.currentQ || 1}`;
+          const isMe = u.id === myUid;
+          const statusDot = u.isPaused ? 'bg-amber-400' : 'bg-emerald-400';
+          const statusTag = u.isPaused ? 'PAUSED' : `Q.${u.currentQ || 1}`;
           return `
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 border ${isMe ? 'border-sky-500/60' : 'border-slate-700'} shrink-0">
-              <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-extrabold flex items-center justify-center">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${isMe ? 'bg-sky-900/90 border-sky-500/60' : 'bg-slate-800 border-slate-700'} border text-xs shrink-0">
+              <span class="w-4 h-4 rounded-full bg-emerald-500 text-slate-950 font-extrabold text-[9px] flex items-center justify-center">
                 ${escapeHtml(getInitials(u.userName))}
               </span>
-              <span class="text-xs font-bold text-white">${escapeHtml(u.userName)}${isMe ? ' (You)' : ''}</span>
-              <span class="text-[10px] font-semibold ${u.isPaused ? 'text-amber-300' : 'text-sky-300'}">${statusTag}</span>
+              <span class="font-bold text-white">${escapeHtml(u.userName)}${isMe ? ' (You)' : ''}</span>
+              <span class="text-[10px] font-extrabold ${u.isPaused ? 'text-amber-300' : 'text-emerald-300'} flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full ${statusDot}"></span>
+                Quiz ${u.quizId || 1} • ${statusTag}
+              </span>
             </div>
           `;
         })
@@ -1431,241 +1499,220 @@
     }
 
     // =========================================================================
-    // 3. DASHBOARD RENDERING (QUIZ 1 & QUIZ 2 WITH RESUME OR START AGAIN)
+    // 3. TWO-QUIZ DASHBOARD CARDS (QUIZ 1 & QUIZ 2 — 120 QUESTIONS EACH)
     // =========================================================================
-    window.applyRoomCodeChange = function () {
-      const raw = document.getElementById('room-code-input').value.trim() || 'UPPSC-240';
-      const code = raw.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 20) || 'UPPSC-240';
-      document.getElementById('room-code-input').value = code;
-      state.roomCode = code;
-      document.getElementById('entry-room-subtitle').textContent = `Room: ${code}`;
-      try {
-        const u = new URL(window.location.href);
-        u.searchParams.set('room', code);
-        window.history.replaceState({}, '', u.toString());
-      } catch (_) {}
-      subscribeToRoom(code);
-      renderDashboardCards();
-      showToast(`Switched to Room ${code}`, 'info');
-    };
-
-    window.createPrivateRoom = function () {
-      const code = `UPPSC-${Math.floor(100 + Math.random() * 900)}`;
-      document.getElementById('room-code-input').value = code;
-      window.applyRoomCodeChange();
-      showToast(`Created Room ${code}! Share link with friends.`, 'success');
-    };
-
     function renderDashboardCards() {
-      const quizzes = [
-        {
-          id: 1,
-          title: 'Quiz 1: UPPSC Prelims GS Paper I',
-          subtitle: '120 Questions (Bank Q.1 – Q.120)',
-          topics: [
-            'Sec 1 (30 Qs): Governor-Generals & Viceroys (Hastings to Rajaji)',
-            'Sec 2 (30 Qs): British Wars, Carnatic, Mysore, Maratha & Pacts',
-            'Sec 3 (30 Qs): WPA 1972, EPA 1986, Ramsar, Montreal & Kyoto',
-            'Sec 4 (30 Qs): Brahmo/Arya Samaj & UPPSC Chronology PYQs'
-          ]
-        },
-        {
-          id: 2,
-          title: 'Quiz 2: UPPSC Prelims GS Paper II',
-          subtitle: '120 Questions (Bank Q.121 – Q.240)',
-          topics: [
-            'Sec 1 (30 Qs): Viceroys Commissions, Acts & Policies (1773–1947)',
-            'Sec 2 (30 Qs): Anglo-Sikh, Afghan, Burma Wars & Charter Acts',
-            'Sec 3 (30 Qs): NGT, Biodiversity Act, CITES, Nagoya & Paris Pact',
-            'Sec 4 (30 Qs): Peasant Uprisings, Reformers & Freedom Chronology'
-          ]
-        }
-      ];
+      [1, 2].forEach((quizId) => {
+        const container = document.getElementById(`dashboard-card-quiz${quizId}`);
+        if (!container) return;
 
-      quizzes.forEach((qz) => {
-        const card = document.getElementById(`dashboard-card-quiz${qz.id}`);
-        if (!card) return;
+        const saved = getSavedQuizProgress(quizId);
+        const hasSaved = saved && (Object.keys(saved.answers || {}).length > 0 || (saved.currentIndex || 0) > 0 || (saved.totalElapsedSeconds || 0) > 0);
+        const answeredCount = hasSaved ? Object.keys(saved.answers || {}).length : 0;
+        const savedQNum = hasSaved ? (saved.currentIndex || 0) + 1 : 1;
+        const savedElapsed = hasSaved ? formatDuration(saved.totalElapsedSeconds || 0) : '00:00';
+        const savedQTimer = hasSaved && typeof saved.qSecondsLeft === 'number' ? saved.qSecondsLeft : 40;
 
-        const saved = loadSavedQuizProgress(state.roomCode, qz.id);
-        const liveOnThisQuiz = state.liveUsers.filter((u) => Number(u.quizId || 1) === qz.id).length;
-        const attemptsCount = state.allAttempts.filter((r) => r.quizId === qz.id).length;
+        const liveOnThisQuiz = state.liveUsers.filter((u) => Number(u.quizId || 1) === quizId).length;
+        const participantsCount = state.allAttempts.filter((a) => a.quizId === quizId).length;
 
-        const hasSaved = saved && (Object.keys(saved.answers || {}).length > 0 || saved.currentIndex > 0 || saved.totalElapsedSeconds > 0);
-        const savedAnswered = hasSaved ? Object.values(saved.answers || {}).filter((v) => Number(v) >= 0).length : 0;
-        const isCompleted = saved && saved.status === 'Completed';
+        const accentBadge = quizId === 1
+          ? 'bg-sky-50 text-sky-700 border-sky-200'
+          : 'bg-indigo-50 text-indigo-700 border-indigo-200';
+        const primaryBtnCls = quizId === 1
+          ? 'bg-sky-600 hover:bg-sky-700'
+          : 'bg-indigo-600 hover:bg-indigo-700';
 
-        let statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[11px] font-extrabold">Not Started</span>`;
-        if (isCompleted) {
-          statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold">✓ Completed (${savedAnswered}/120)</span>`;
-        } else if (hasSaved) {
-          statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-[11px] font-extrabold">⏸ Saved at Q.${(saved.currentIndex || 0) + 1}/120</span>`;
-        }
+        const titleText = quizId === 1
+          ? 'Quiz 1: UPPSC Prelims GS Paper I'
+          : 'Quiz 2: UPPSC Prelims GS Paper II';
+        const subText = quizId === 1
+          ? 'Questions 1 to 120 • 4 Sections × 30 Questions • 40s / Question'
+          : 'Questions 121 to 240 • 4 Sections × 30 Questions • 40s / Question';
 
-        const savedBannerHtml = hasSaved
-          ? `
-            <div class="p-3.5 rounded-xl ${isCompleted ? 'bg-emerald-50/70 border-emerald-200' : 'bg-amber-50 border-amber-300'} border space-y-1">
-              <div class="flex items-center justify-between text-xs font-extrabold ${isCompleted ? 'text-emerald-900' : 'text-amber-900'}">
-                <span>${isCompleted ? 'Previous Attempt Saved' : 'Saved Progress Found!'}</span>
-                <span class="font-mono">⏱ ${formatDuration(saved.totalElapsedSeconds || 0)}</span>
+        let actionHtml = '';
+        if (hasSaved) {
+          actionHtml = `
+            <div class="p-3.5 rounded-xl bg-amber-50/90 border border-amber-200 space-y-1.5">
+              <div class="flex items-center justify-between text-xs font-extrabold text-amber-900">
+                <span>⏸ Saved Progress Found (${saved.status || 'Paused'})</span>
+                <span>${answeredCount}/120 Answered</span>
               </div>
-              <p class="text-[11px] ${isCompleted ? 'text-emerald-800' : 'text-amber-800'}">
-                Stopped at <strong>Question ${(saved.currentIndex || 0) + 1} of 120</strong> • <strong>${savedAnswered}</strong> answered • Timer left on Q: <strong>${saved.qSecondsLeft || 40}s</strong>
-              </p>
+              <div class="text-[11px] text-amber-800">
+                Stopped at <strong>Question ${savedQNum}</strong> • Question Timer: <strong>${savedQTimer}s</strong> • Elapsed: <strong>${savedElapsed}</strong>
+              </div>
             </div>
-          `
-          : '';
-
-        const actionButtonsHtml = hasSaved
-          ? `
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
               <button
                 type="button"
-                onclick="launchQuiz(${qz.id}, 'resume')"
-                class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow transition flex items-center justify-center gap-1.5 cursor-pointer"
+                onclick="launchQuiz(${quizId}, 'resume')"
+                class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <span>▶ Continue Where Left Off</span>
+                <span>▶ Continue Where Left Off (Q.${savedQNum})</span>
               </button>
               <button
                 type="button"
-                onclick="promptRestartQuizFromDashboard(${qz.id})"
-                class="py-3 px-4 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-800 hover:text-rose-700 border border-slate-300 hover:border-rose-300 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
+                onclick="promptRestartFromDashboard(${quizId})"
+                class="py-3 px-4 rounded-xl bg-white hover:bg-rose-50 text-rose-700 border border-rose-300 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <span>🔄 Start Again from Start</span>
               </button>
             </div>
-          `
-          : `
+          `;
+        } else {
+          actionHtml = `
             <button
               type="button"
-              onclick="launchQuiz(${qz.id}, 'fresh')"
-              class="w-full py-3.5 px-5 rounded-xl ${qz.id === 1 ? 'bg-sky-600 hover:bg-sky-700' : 'bg-indigo-600 hover:bg-indigo-700'} text-white font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+              onclick="launchQuiz(${quizId}, 'fresh')"
+              class="w-full py-3.5 px-5 rounded-xl ${primaryBtnCls} text-white font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Start Quiz ${qz.id} (120 Questions) →</span>
+              <span>Start Quiz ${quizId} (120 Questions) →</span>
             </button>
           `;
+        }
 
-        card.className = `bg-white rounded-2xl border-2 ${
-          hasSaved && !isCompleted ? 'border-amber-400' : qz.id === 1 ? 'border-sky-200' : 'border-indigo-200'
-        } p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-4`;
-
-        card.innerHTML = `
+        container.innerHTML = `
           <div class="space-y-3">
             <div class="flex items-center justify-between gap-2 flex-wrap">
-              <span class="px-2.5 py-0.5 rounded-md ${qz.id === 1 ? 'bg-sky-600' : 'bg-indigo-600'} text-white text-xs font-extrabold uppercase">
-                Quiz ${qz.id} • 120 Qs
+              <span class="px-2.5 py-1 rounded-lg border text-xs font-extrabold ${accentBadge}">
+                QUIZ ${quizId} • 120 QUESTIONS
               </span>
-              ${statusBadge}
+              <div class="flex items-center gap-2 text-[11px] font-bold">
+                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  ● ${liveOnThisQuiz} Live
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                  ${participantsCount} Attempted
+                </span>
+              </div>
             </div>
 
             <div>
-              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">${qz.title}</h2>
-              <p class="text-xs font-semibold text-slate-500 mt-0.5">${qz.subtitle} • 40s / Question • +1.33 / -0.33</p>
+              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">${titleText}</h2>
+              <p class="text-xs text-slate-500 mt-0.5">${subText}</p>
             </div>
 
-            <ul class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
-              ${qz.topics.map((t) => `<li class="text-xs text-slate-700 flex items-start gap-2"><span class="text-sky-600 font-extrabold">•</span><span>${t}</span></li>`).join('')}
-            </ul>
-
-            <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 px-1">
-              <span class="text-emerald-700">● ${liveOnThisQuiz} user(s) live now</span>
-              <span>${attemptsCount} participant(s) on scoreboard</span>
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="p-2 rounded-lg bg-slate-50 border border-slate-200/80 font-semibold text-slate-700">
+                1. Governor-Generals (30 Qs)
+              </div>
+              <div class="p-2 rounded-lg bg-slate-50 border border-slate-200/80 font-semibold text-slate-700">
+                2. Wars &amp; Treaties (30 Qs)
+              </div>
+              <div class="p-2 rounded-lg bg-slate-50 border border-slate-200/80 font-semibold text-slate-700">
+                3. Env. Laws &amp; Protocols (30 Qs)
+              </div>
+              <div class="p-2 rounded-lg bg-slate-50 border border-slate-200/80 font-semibold text-slate-700">
+                4. Reforms &amp; Chronology (30 Qs)
+              </div>
             </div>
-
-            ${savedBannerHtml}
           </div>
 
-          <div>
-            ${actionButtonsHtml}
+          <div class="space-y-2.5 pt-2 border-t border-slate-100">
+            ${actionHtml}
           </div>
         `;
       });
     }
 
-    function ensureParticipantNameAndRoom() {
-      const inputEl = document.getElementById('user-name-input');
-      const name = inputEl.value.trim();
-      if (!name) {
-        inputEl.focus();
-        inputEl.classList.add('ring-2', 'ring-rose-500', 'border-rose-500');
-        showToast('Please enter your Full Name first to start or resume the quiz!', 'error');
-        return null;
-      }
-      inputEl.classList.remove('ring-2', 'ring-rose-500', 'border-rose-500');
-
-      const roomRaw = document.getElementById('room-code-input').value.trim() || 'UPPSC-240';
-      const roomCode = roomRaw.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 20) || 'UPPSC-240';
-      if (roomCode !== state.roomCode) {
-        state.roomCode = roomCode;
-        subscribeToRoom(roomCode);
+    function readAndValidateNameAndRoom() {
+      const nameVal = document.getElementById('user-name-input').value.trim();
+      if (!nameVal) {
+        showToast('Please enter your Full Name before starting Quiz 1 or Quiz 2.', 'error');
+        document.getElementById('user-name-input').focus();
+        return false;
       }
 
+      const roomRaw = document.getElementById('room-code-input').value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+      const roomVal = roomRaw || 'UPPSC-LIVE';
+      document.getElementById('room-code-input').value = roomVal;
+
+      state.userName = nameVal;
       try {
-        localStorage.setItem('uppsc_last_username', name);
+        localStorage.setItem('uppsc_last_username', nameVal);
       } catch (_) {}
 
-      return { name, roomCode };
+      if (roomVal !== state.roomCode) {
+        state.roomCode = roomVal;
+        subscribeToRoom(roomVal);
+      }
+      return true;
     }
 
+    window.applyRoomCodeChange = function () {
+      const roomRaw = document.getElementById('room-code-input').value.trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+      const roomVal = roomRaw || 'UPPSC-LIVE';
+      document.getElementById('room-code-input').value = roomVal;
+      state.roomCode = roomVal;
+      document.getElementById('entry-room-subtitle').textContent = `Room: ${roomVal}`;
+      document.getElementById('header-room-subtitle').textContent = `Room: ${roomVal} • 4 Sections × 30 Qs`;
+      subscribeToRoom(roomVal);
+      renderDashboardCards();
+      showToast(`Joined Room ${roomVal}`, 'success');
+    };
+
     window.launchQuiz = async function (quizId, mode = 'fresh') {
-      const info = ensureParticipantNameAndRoom();
-      if (!info) return;
+      if (!readAndValidateNameAndRoom()) return;
 
       const qId = Number(quizId) === 2 ? 2 : 1;
-      const saved = mode === 'resume' ? loadSavedQuizProgress(info.roomCode, qId) : null;
-
-      state.userName = info.name;
-      state.roomCode = info.roomCode;
       state.activeQuizId = qId;
       state.joined = true;
       state.isPaused = false;
 
+      const saved = mode === 'resume' ? getSavedQuizProgress(qId) : null;
       if (saved) {
         state.currentIndex = Math.min(119, Math.max(0, Number(saved.currentIndex || 0)));
-        state.currentSection = Math.floor(state.currentIndex / 30);
-        state.answers = saved.answers || {};
+        state.answers = saved.answers ? { ...saved.answers } : {};
         state.totalElapsedSeconds = Number(saved.totalElapsedSeconds || 0);
-        state.qSecondsLeft = Number(saved.qSecondsLeft || 40);
+        state.qSecondsLeft = typeof saved.qSecondsLeft === 'number' && saved.qSecondsLeft > 0 ? saved.qSecondsLeft : 40;
+        showToast(`Resumed Quiz ${qId} from Question ${state.currentIndex + 1}`, 'success');
       } else {
-        clearSavedQuizProgress(info.roomCode, qId);
+        clearSavedQuizProgressLocally(qId);
         state.currentIndex = 0;
-        state.currentSection = 0;
         state.answers = {};
         state.totalElapsedSeconds = 0;
         state.qSecondsLeft = 40;
+        showToast(`Started Quiz ${qId} (120 Questions) from Q.1`, 'success');
       }
 
-      updateHeaderQuizBadge();
-      startTotalElapsedClock();
-      saveCurrentQuizProgressLocally('Live');
-      await broadcastPresence();
+      document.getElementById('header-set-pill').textContent = `QUIZ ${qId} • 120 Qs`;
+      document.getElementById('header-room-subtitle').textContent = `Room: ${state.roomCode} • ${state.userName}`;
+      document.getElementById('nav-btn-poll').classList.remove('hidden');
 
+      startTotalElapsedTimer();
       if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
-      state.heartbeatInterval = setInterval(broadcastPresence, 25000);
+      state.heartbeatInterval = setInterval(sendPresenceHeartbeat, 20000);
 
+      await sendPresenceHeartbeat();
       await syncAttemptToCloud('Live');
-      window.switchView('poll', Boolean(saved));
-      showToast(
-        saved
-          ? `Resumed Quiz ${qId} from Question ${state.currentIndex + 1} (${formatDuration(state.totalElapsedSeconds)} elapsed)!`
-          : `Started Quiz ${qId} (120 Questions) from Question 1!`,
-        'success'
-      );
+
+      window.switchView('poll');
+      renderPollQuestion(false);
     };
 
-    window.promptRestartQuizFromDashboard = function (quizId) {
-      const qId = Number(quizId) === 2 ? 2 : 1;
-      document.getElementById('restart-modal-heading').textContent = `Start Quiz ${qId} Again from Q.1?`;
-      const confirmBtn = document.getElementById('btn-confirm-restart-action');
-      confirmBtn.onclick = () => {
-        window.closeRestartModal();
-        closePauseModal();
-        window.launchQuiz(qId, 'fresh');
+    let pendingRestartQuizId = 1;
+    window.promptRestartFromDashboard = function (quizId) {
+      if (!readAndValidateNameAndRoom()) return;
+      pendingRestartQuizId = Number(quizId) === 2 ? 2 : 1;
+      document.getElementById('restart-modal-heading').textContent = `Start Quiz ${pendingRestartQuizId} Again from Q.1?`;
+      const btn = document.getElementById('btn-confirm-restart-action');
+      btn.onclick = () => {
+        closeRestartModal();
+        window.launchQuiz(pendingRestartQuizId, 'fresh');
       };
       document.getElementById('restart-confirm-modal').classList.remove('hidden');
     };
 
     window.confirmRestartCurrentQuiz = function () {
-      window.promptRestartQuizFromDashboard(state.activeQuizId);
+      document.getElementById('pause-modal').classList.add('hidden');
+      pendingRestartQuizId = state.activeQuizId;
+      document.getElementById('restart-modal-heading').textContent = `Start Quiz ${pendingRestartQuizId} Again from Q.1?`;
+      const btn = document.getElementById('btn-confirm-restart-action');
+      btn.onclick = () => {
+        closeRestartModal();
+        window.launchQuiz(pendingRestartQuizId, 'fresh');
+      };
+      document.getElementById('restart-confirm-modal').classList.remove('hidden');
     };
 
     window.closeRestartModal = function () {
@@ -1673,183 +1720,176 @@
     };
 
     // =========================================================================
-    // 4. PAUSE / RESUME / SAVE & EXIT TO DASHBOARD
+    // 4. PAUSE, RESUME & AUTO-SAVE ENGINE
     // =========================================================================
     window.pauseCurrentQuiz = async function () {
       if (!state.joined) return;
       state.isPaused = true;
       if (state.qTimerInterval) clearInterval(state.qTimerInterval);
-      if (state.totalClockInterval) clearInterval(state.totalClockInterval);
+      if (state.totalTimerInterval) clearInterval(state.totalTimerInterval);
 
       saveCurrentQuizProgressLocally('Paused');
-      await broadcastPresence();
+      await sendPresenceHeartbeat();
       await syncAttemptToCloud('Paused');
 
-      const answeredCount = Object.values(state.answers).filter((v) => Number(v) >= 0).length;
+      const answeredCount = Object.keys(state.answers).length;
       document.getElementById('pause-modal-title').textContent = `Quiz ${state.activeQuizId} Paused`;
       document.getElementById('pause-modal-stats').innerHTML = `
         <div>Saved Position: <strong>Question ${state.currentIndex + 1} of 120</strong> (${answeredCount} answered)</div>
-        <div>Question Timer Frozen At: <strong>${state.answers[state.currentIndex] !== undefined ? 'Answered' : `${state.qSecondsLeft}s remaining`}</strong></div>
+        <div>Question Timer Frozen At: <strong>${state.qSecondsLeft}s remaining</strong></div>
         <div>Total Time Elapsed: <strong>${formatDuration(state.totalElapsedSeconds)}</strong></div>
       `;
       document.getElementById('pause-modal').classList.remove('hidden');
     };
 
     window.resumePausedQuiz = async function () {
-      closePauseModal();
+      document.getElementById('pause-modal').classList.add('hidden');
+      if (!state.joined) return;
       state.isPaused = false;
-      startTotalElapsedClock();
-      saveCurrentQuizProgressLocally('Live');
-      await broadcastPresence();
+      startTotalElapsedTimer();
+      const isAnswered = state.answers[state.currentIndex] !== undefined;
+      if (!isAnswered) {
+        startQuestion40sTimer(true);
+      }
+      await sendPresenceHeartbeat();
       await syncAttemptToCloud('Live');
-      renderPollQuestion(true);
-      showToast(`Quiz ${state.activeQuizId} Resumed!`, 'info');
+      showToast(`Resumed Quiz ${state.activeQuizId} at Question ${state.currentIndex + 1}`, 'info');
     };
 
     window.saveAndExitToDashboard = async function () {
-      closePauseModal();
+      document.getElementById('pause-modal').classList.add('hidden');
       if (state.joined) {
         state.isPaused = true;
         if (state.qTimerInterval) clearInterval(state.qTimerInterval);
-        if (state.totalClockInterval) clearInterval(state.totalClockInterval);
+        if (state.totalTimerInterval) clearInterval(state.totalTimerInterval);
         saveCurrentQuizProgressLocally('Paused');
-        await broadcastPresence();
+        await sendPresenceHeartbeat();
         await syncAttemptToCloud('Paused');
+        showToast(`Quiz ${state.activeQuizId} progress saved! You can continue anytime.`, 'success');
       }
+      renderDashboardCards();
       window.switchView('entry');
     };
 
-    function closePauseModal() {
-      document.getElementById('pause-modal').classList.add('hidden');
-    }
-
-    function updateHeaderQuizBadge() {
-      const pill = document.getElementById('header-set-pill');
-      const badge = document.getElementById('poll-attempt-badge');
-      if (state.activeQuizId === 2) {
-        pill.textContent = 'QUIZ 2 (120 Qs)';
-        badge.textContent = 'Quiz 2 • 120 Questions (Bank #121–240)';
-      } else {
-        pill.textContent = 'QUIZ 1 (120 Qs)';
-        badge.textContent = 'Quiz 1 • 120 Questions (Bank #1–120)';
-      }
-      document.getElementById('header-room-subtitle').textContent = `Room: ${state.roomCode} • 4 Sections × 30 Qs`;
+    function startTotalElapsedTimer() {
+      if (state.totalTimerInterval) clearInterval(state.totalTimerInterval);
       document.getElementById('poll-total-time-pill').textContent = `Time: ${formatDuration(state.totalElapsedSeconds)}`;
-    }
-
-    function startTotalElapsedClock() {
-      if (state.totalClockInterval) clearInterval(state.totalClockInterval);
-      state.totalClockInterval = setInterval(() => {
-        if (!state.joined || state.isPaused || state.view !== 'poll') return;
-        state.totalElapsedSeconds += 1;
-        document.getElementById('poll-total-time-pill').textContent = `Time: ${formatDuration(state.totalElapsedSeconds)}`;
-        if (state.totalElapsedSeconds % 5 === 0) {
+      state.totalTimerInterval = setInterval(() => {
+        if (state.isPaused) return;
+        state.totalElapsedSeconds++;
+        const pill = document.getElementById('poll-total-time-pill');
+        if (pill) pill.textContent = `Time: ${formatDuration(state.totalElapsedSeconds)}`;
+        if (state.totalElapsedSeconds % 10 === 0) {
           saveCurrentQuizProgressLocally('Live');
         }
       }, 1000);
     }
 
-    function startFortySecondQuestionTimer(preserveRemainingSeconds = false) {
+    function startQuestion40sTimer(keepRemaining = false) {
       if (state.qTimerInterval) clearInterval(state.qTimerInterval);
-      const qIdx = state.currentIndex;
-      const alreadyAnswered = state.answers[qIdx] !== undefined;
-
-      const bar = document.getElementById('q-timer-bar');
-      const txt = document.getElementById('q-timer-text');
-      const badge = document.getElementById('q-timer-badge');
-
-      if (alreadyAnswered) {
-        state.qSecondsLeft = 0;
-        bar.style.width = '0%';
-        bar.className = 'h-full bg-emerald-500';
-        txt.textContent = 'Answered';
-        badge.className = 'px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0';
-        return;
-      }
-
-      if (!preserveRemainingSeconds || state.qSecondsLeft <= 0 || state.qSecondsLeft > 40) {
+      if (!keepRemaining || state.qSecondsLeft <= 0 || state.qSecondsLeft > 40) {
         state.qSecondsLeft = 40;
       }
-
-      const initialPct = Math.max(0, (state.qSecondsLeft / 40) * 100);
-      bar.style.width = `${initialPct}%`;
-      bar.className = state.qSecondsLeft <= 10 ? 'h-full bg-rose-500 transition-all duration-1000 ease-linear' : 'h-full bg-sky-500 transition-all duration-1000 ease-linear';
-      txt.textContent = `${state.qSecondsLeft}s`;
-      badge.className = 'px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0';
-
-      if (state.isPaused) return;
+      updateQuestionTimerUI();
 
       state.qTimerInterval = setInterval(() => {
-        if (state.isPaused || state.view !== 'poll' || state.answers[qIdx] !== undefined) {
-          clearInterval(state.qTimerInterval);
-          return;
-        }
-        state.qSecondsLeft -= 1;
-        const pct = Math.max(0, (state.qSecondsLeft / 40) * 100);
-        bar.style.width = `${pct}%`;
-        txt.textContent = `${Math.max(0, state.qSecondsLeft)}s`;
-
-        if (state.qSecondsLeft <= 10) {
-          bar.className = 'h-full bg-rose-500 transition-all duration-1000 ease-linear';
-          badge.className = 'px-3 py-1 rounded-full bg-rose-50 border border-rose-300 text-rose-700 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0 animate-pulse';
-        }
-
+        if (state.isPaused) return;
+        state.qSecondsLeft--;
+        updateQuestionTimerUI();
         if (state.qSecondsLeft <= 0) {
           clearInterval(state.qTimerInterval);
-          state.answers[qIdx] = -1;
-          renderPollQuestion();
-          syncAttemptToCloud('Live');
+          handleQuestionTimeout();
         }
       }, 1000);
     }
 
+    function updateQuestionTimerUI() {
+      const txt = document.getElementById('q-timer-text');
+      const bar = document.getElementById('q-timer-bar');
+      const badge = document.getElementById('q-timer-badge');
+      if (!txt || !bar || !badge) return;
+
+      txt.textContent = `${state.qSecondsLeft}s`;
+      const pct = Math.max(0, (state.qSecondsLeft / 40) * 100);
+      bar.style.width = `${pct}%`;
+
+      if (state.qSecondsLeft <= 10) {
+        bar.className = 'h-full bg-rose-500 transition-all duration-1000 ease-linear';
+        badge.className = 'px-3 py-1 rounded-full bg-rose-50 border border-rose-300 text-rose-700 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0 animate-pulse';
+      } else {
+        bar.className = 'h-full bg-sky-500 transition-all duration-1000 ease-linear';
+        badge.className = 'px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0';
+      }
+    }
+
+    async function handleQuestionTimeout() {
+      const idx = state.currentIndex;
+      if (state.answers[idx] !== undefined) return;
+      state.answers[idx] = -1;
+      showToast('40 seconds elapsed! Correct answer revealed.', 'warn');
+      renderPollQuestion();
+      await syncAttemptToCloud('Live');
+    }
+
     // =========================================================================
-    // 5. TELEGRAM POLL QUESTION RENDERING (RAW PEOPLE COUNTS, NO PERCENTAGES)
+    // 5. TELEGRAM POLL RENDERING (RAW COUNTS + VOTER NAME PILLS, NO PERCENTAGES)
     // =========================================================================
-    function renderPollQuestion(preserveTimer = false) {
+    function renderPollQuestion(fromRealtimeUpdate = false) {
       const qList = getActiveQuestionList();
       const idx = state.currentIndex;
       const q = qList[idx];
       if (!q) return;
-      state.currentSection = q.sectionIdx;
 
       const userAns = state.answers[idx];
       const isRevealed = userAns !== undefined;
       const counts = (state.voteCounts[state.activeQuizId] && state.voteCounts[state.activeQuizId][idx]) || [0, 0, 0, 0];
+      const votersPerOpt = (state.voteVoters[state.activeQuizId] && state.voteVoters[state.activeQuizId][idx]) || [[], [], [], []];
       const totalPeople = counts.reduce((acc, n) => acc + n, 0);
 
       for (let s = 0; s < 4; s++) {
+        const tab = document.getElementById(`sec-tab-${s}`);
+        const cntEl = document.getElementById(`sec-count-${s}`);
         let secAns = 0;
         for (let k = s * 30; k < (s + 1) * 30; k++) {
-          if (state.answers[k] !== undefined && state.answers[k] >= 0) secAns++;
+          if (state.answers[k] !== undefined) secAns++;
         }
-        document.getElementById(`sec-count-${s}`).textContent = `${secAns}/30`;
-        const tab = document.getElementById(`sec-tab-${s}`);
-        if (s === state.currentSection) {
+        cntEl.textContent = `${secAns}/30`;
+
+        if (s === q.sectionIdx) {
           tab.className = 'p-2.5 rounded-xl border text-left transition bg-sky-600 text-white border-sky-600 shadow-sm cursor-pointer';
-          tab.querySelector('div').className = 'flex items-center justify-between text-[10px] font-extrabold uppercase text-sky-100';
         } else {
           tab.className = 'p-2.5 rounded-xl border text-left transition bg-white text-slate-700 border-slate-200 hover:border-sky-400 cursor-pointer';
-          tab.querySelector('div').className = 'flex items-center justify-between text-[10px] font-extrabold uppercase text-slate-400';
         }
       }
 
-      let cCount = 0;
-      let wCount = 0;
+      let correct = 0;
+      let wrong = 0;
       Object.entries(state.answers).forEach(([qiStr, oiVal]) => {
-        const oi = Number(oiVal);
-        if (oi >= 0) {
-          if (qList[Number(qiStr)].correct === oi) cCount++;
-          else wCount++;
-        }
+        const qItem = qList[Number(qiStr)];
+        if (!qItem) return;
+        if (Number(oiVal) === qItem.correct) correct++;
+        else if (Number(oiVal) >= 0) wrong++;
       });
-      const net = (cCount * 1.33 - wCount * 0.33).toFixed(2);
-      document.getElementById('poll-score-pill').textContent = `Score: ${net} (${cCount}✓ / ${wCount}✕)`;
-      document.getElementById('poll-answered-total').textContent = cCount + wCount;
+      const net = (correct * 1.33 - wrong * 0.33).toFixed(2);
+      document.getElementById('poll-attempt-badge').textContent = `Quiz ${state.activeQuizId} (120 Qs)`;
+      document.getElementById('poll-score-pill').textContent = `Score: ${net} (${correct}✓ / ${wrong}✕)`;
+      document.getElementById('poll-answered-total').textContent = Object.keys(state.answers).length;
 
-      document.getElementById('poll-q-number').textContent = `Quiz ${state.activeQuizId} • Q. ${idx + 1} / 120`;
+      document.getElementById('poll-q-number').textContent = `Q. ${idx + 1} / 120`;
       document.getElementById('poll-q-meta').textContent = `Section ${q.sectionIdx + 1}: ${q.sectionName} (Q.${q.localNum}/30)`;
       document.getElementById('poll-q-text').textContent = q.question;
+
+      if (!fromRealtimeUpdate && !state.isPaused) {
+        if (!isRevealed) {
+          startQuestion40sTimer(true);
+        } else {
+          if (state.qTimerInterval) clearInterval(state.qTimerInterval);
+          document.getElementById('q-timer-text').textContent = 'Answered';
+          document.getElementById('q-timer-bar').style.width = '100%';
+          document.getElementById('q-timer-bar').className = 'h-full bg-emerald-500';
+          document.getElementById('q-timer-badge').className = 'px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-700 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0';
+        }
+      }
 
       const box = document.getElementById('poll-options-box');
       box.innerHTML = '';
@@ -1857,6 +1897,7 @@
 
       q.options.forEach((optText, optIdx) => {
         const peopleHit = counts[optIdx] || 0;
+        const optVoters = votersPerOpt[optIdx] || [];
         const barWidthPct = totalPeople > 0 ? Math.round((peopleHit / totalPeople) * 100) : 0;
         const isCorrect = optIdx === q.correct;
         const isUserPick = optIdx === userAns;
@@ -1866,12 +1907,18 @@
         btn.disabled = isRevealed;
 
         if (!isRevealed) {
-          btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-400 transition flex items-center gap-3 group cursor-pointer';
+          const liveHint = peopleHit > 0
+            ? `<span class="px-2 py-0.5 rounded-full bg-slate-200/80 text-slate-600 text-[11px] font-bold shrink-0">${peopleHit} ${peopleHit === 1 ? 'vote' : 'votes'}</span>`
+            : '';
+          btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-400 transition flex items-center justify-between gap-3 group cursor-pointer';
           btn.innerHTML = `
-            <span class="w-7 h-7 rounded-full border-2 border-slate-300 group-hover:border-sky-600 text-xs font-extrabold text-slate-600 group-hover:text-sky-700 flex items-center justify-center shrink-0 transition">
-              ${letters[optIdx]}
-            </span>
-            <span class="text-sm sm:text-base font-medium text-slate-900 leading-snug">${escapeHtml(optText)}</span>
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="w-7 h-7 rounded-full border-2 border-slate-300 group-hover:border-sky-600 text-xs font-extrabold text-slate-600 group-hover:text-sky-700 flex items-center justify-center shrink-0 transition">
+                ${letters[optIdx]}
+              </span>
+              <span class="text-sm sm:text-base font-medium text-slate-900 leading-snug">${escapeHtml(optText)}</span>
+            </div>
+            ${liveHint}
           `;
           btn.onclick = () => handleOptionClick(optIdx);
         } else {
@@ -1905,7 +1952,25 @@
           }
 
           const personWord = peopleHit === 1 ? 'person' : 'people';
-          const youPill = isUserPick ? `<span class="ml-1.5 px-1.5 py-0.5 rounded bg-slate-900 text-white text-[10px] font-bold uppercase">You</span>` : '';
+          const voterPillsHtml = optVoters.length > 0
+            ? `<div class="relative z-10 mt-2 pl-10 flex flex-wrap items-center gap-1.5">
+                ${optVoters
+                  .map((v) => {
+                    const pillTone = v.isMe
+                      ? 'bg-slate-900 text-white border-slate-900'
+                      : isCorrect
+                      ? 'bg-emerald-100/90 text-emerald-900 border-emerald-300'
+                      : 'bg-white/95 text-slate-700 border-slate-300';
+                    return `
+                      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-bold ${pillTone}">
+                        <span class="w-3.5 h-3.5 rounded-full bg-sky-500/20 text-[9px] font-extrabold flex items-center justify-center">${escapeHtml(getInitials(v.name))}</span>
+                        <span>${escapeHtml(v.name)}${v.isMe ? ' (You)' : ''}</span>
+                      </span>
+                    `;
+                  })
+                  .join('')}
+              </div>`
+            : '';
 
           btn.className = `relative w-full text-left p-3.5 sm:p-4 rounded-xl border ${borderCls} overflow-hidden transition cursor-default`;
           btn.innerHTML = `
@@ -1914,7 +1979,7 @@
               <div class="flex items-center gap-3 min-w-0">
                 ${iconHtml}
                 <span class="text-sm sm:text-base font-semibold text-slate-900 leading-snug">
-                  ${escapeHtml(optText)}${youPill}
+                  ${escapeHtml(optText)}
                 </span>
               </div>
               <div class="shrink-0 pl-2 text-right">
@@ -1923,6 +1988,7 @@
                 </span>
               </div>
             </div>
+            ${voterPillsHtml}
           `;
         }
 
@@ -1931,36 +1997,35 @@
 
       const expBox = document.getElementById('poll-explanation-box');
       const verdictLbl = document.getElementById('poll-verdict-label');
-      const expTxt = document.getElementById('poll-explanation-text');
+      const expText = document.getElementById('poll-explanation-text');
+      const hintText = document.getElementById('poll-hint-text');
 
       if (isRevealed) {
         expBox.classList.remove('hidden');
-        if (userAns === -1) {
-          verdictLbl.className = 'text-xs font-extrabold uppercase tracking-wider text-amber-700';
-          verdictLbl.textContent = `⏱ Time Up (40s) • Correct Option: (${letters[q.correct]})`;
-        } else if (userAns === q.correct) {
+        expText.textContent = q.explanation;
+        if (userAns === q.correct) {
+          verdictLbl.textContent = `✓ Right Answer! Option (${letters[q.correct]}) (+1.33 Marks)`;
           verdictLbl.className = 'text-xs font-extrabold uppercase tracking-wider text-emerald-700';
-          verdictLbl.textContent = `✓ Right Answer! (+1.33 Marks)`;
+        } else if (userAns === -1) {
+          verdictLbl.textContent = `⏱ Time Up! Right Answer is Option (${letters[q.correct]})`;
+          verdictLbl.className = 'text-xs font-extrabold uppercase tracking-wider text-amber-700';
         } else {
+          verdictLbl.textContent = `✕ Wrong! You selected (${letters[userAns]}). Right Answer is (${letters[q.correct]}) (-0.33 Marks)`;
           verdictLbl.className = 'text-xs font-extrabold uppercase tracking-wider text-rose-700';
-          verdictLbl.textContent = `✕ Wrong Answer (-0.33 Marks) • Right Answer: (${letters[q.correct]})`;
         }
-        expTxt.textContent = q.explanation;
+        hintText.textContent = 'Click "Next Question →" immediately!';
+        hintText.className = 'font-bold text-emerald-700';
       } else {
         expBox.classList.add('hidden');
+        hintText.textContent = 'Select an option (40s limit)';
+        hintText.className = 'font-semibold text-sky-600';
       }
 
-      const totalWord = totalPeople === 1 ? 'person' : 'people';
-      document.getElementById('poll-total-people').textContent = `${totalPeople} ${totalWord} answered this question`;
-      document.getElementById('poll-hint-text').textContent = isRevealed
-        ? 'Answered! Click "Next Question →" anytime'
-        : 'Select an option within 40 seconds';
-
+      document.getElementById('poll-total-people').textContent = `${totalPeople} ${totalPeople === 1 ? 'person' : 'people'} answered this question`;
       document.getElementById('btn-prev-q').disabled = idx === 0;
-      document.getElementById('btn-next-q').textContent = idx === 119 ? 'Submit & View Scoreboard →' : 'Next Question →';
+      document.getElementById('btn-next-q').textContent = idx === 119 ? 'Finish Quiz & View Rank →' : 'Next Question →';
 
-      renderPaletteGrid();
-      startFortySecondQuestionTimer(preserveTimer);
+      renderSectionPalette(q.sectionIdx);
     }
 
     async function handleOptionClick(optIdx) {
@@ -1969,7 +2034,17 @@
 
       if (state.qTimerInterval) clearInterval(state.qTimerInterval);
       state.answers[idx] = optIdx;
-      state.voteCounts[state.activeQuizId][idx][optIdx] += 1;
+      const myDocKey = `${getEffectiveUserId()}_quiz${state.activeQuizId}`;
+      state.knownAnswerKeys.add(`${myDocKey}:${state.activeQuizId}:${idx}:${optIdx}`);
+
+      if (!state.voteVoters[state.activeQuizId][idx][optIdx].some((v) => v.docId === myDocKey)) {
+        state.voteCounts[state.activeQuizId][idx][optIdx] += 1;
+        state.voteVoters[state.activeQuizId][idx][optIdx].push({
+          docId: myDocKey,
+          name: state.userName,
+          isMe: true
+        });
+      }
 
       renderPollQuestion();
       await syncAttemptToCloud('Live');
@@ -1977,297 +2052,271 @@
 
     window.moveQuestion = async function (delta) {
       const next = state.currentIndex + delta;
-      if (next < 0) return;
       if (next >= 120) {
-        await window.finishAttemptAndShowScoreboard();
+        await finishAttemptAndShowScoreboard();
         return;
       }
+      if (next < 0) return;
       state.currentIndex = next;
-      state.currentSection = Math.floor(next / 30);
+      state.qSecondsLeft = 40;
       saveCurrentQuizProgressLocally('Live');
       renderPollQuestion(false);
-      await broadcastPresence();
+      await sendPresenceHeartbeat();
     };
 
     window.switchSection = async function (secIdx) {
-      state.currentSection = secIdx;
       state.currentIndex = secIdx * 30;
+      state.qSecondsLeft = 40;
       saveCurrentQuizProgressLocally('Live');
       renderPollQuestion(false);
-      await broadcastPresence();
+      await sendPresenceHeartbeat();
+    };
+
+    window.jumpToQuestion = async function (qIdx) {
+      state.currentIndex = qIdx;
+      state.qSecondsLeft = 40;
+      saveCurrentQuizProgressLocally('Live');
+      renderPollQuestion(false);
+      await sendPresenceHeartbeat();
     };
 
     window.togglePaletteDrawer = function () {
       document.getElementById('palette-drawer').classList.toggle('hidden');
-      renderPaletteGrid();
     };
 
-    function renderPaletteGrid() {
-      const s = state.currentSection;
-      const start = s * 30;
-      const qList = getActiveQuestionList();
-      document.getElementById('palette-section-title').textContent = `Section ${s + 1}: ${SECTION_NAMES[s]} (Q.${start + 1}–${start + 30})`;
-
+    function renderSectionPalette(secIdx) {
       const grid = document.getElementById('palette-grid');
+      const title = document.getElementById('palette-section-title');
+      const start = secIdx * 30;
+      const end = start + 30;
+      title.textContent = `Section ${secIdx + 1}: ${SECTION_NAMES[secIdx]} (Q.${start + 1} – Q.${end})`;
       grid.innerHTML = '';
-      for (let i = start; i < start + 30; i++) {
+
+      const qList = getActiveQuestionList();
+      for (let i = start; i < end; i++) {
         const ans = state.answers[i];
+        let cls = 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200';
+        if (ans !== undefined) {
+          cls = ans === qList[i].correct
+            ? 'bg-emerald-600 text-white border-emerald-600'
+            : 'bg-rose-500 text-white border-rose-500';
+        }
+        if (i === state.currentIndex) {
+          cls += ' ring-2 ring-sky-500 ring-offset-1';
+        }
         const b = document.createElement('button');
         b.type = 'button';
         b.textContent = i + 1;
-        let cls = 'h-8 rounded-lg text-xs font-bold transition cursor-pointer ';
-        if (ans === undefined) {
-          cls += 'bg-slate-100 text-slate-600 hover:bg-sky-100';
-        } else if (ans === -1) {
-          cls += 'bg-amber-400 text-slate-950';
-        } else if (ans === qList[i].correct) {
-          cls += 'bg-emerald-600 text-white';
-        } else {
-          cls += 'bg-rose-600 text-white';
-        }
-        if (i === state.currentIndex) cls += ' ring-2 ring-sky-600 scale-105';
-        b.className = cls;
-        b.onclick = async () => {
-          state.currentIndex = i;
-          saveCurrentQuizProgressLocally('Live');
-          renderPollQuestion(false);
-          document.getElementById('palette-drawer').classList.add('hidden');
-          await broadcastPresence();
-        };
+        b.className = `h-8 rounded-lg border text-xs font-extrabold transition cursor-pointer ${cls}`;
+        b.onclick = () => jumpToQuestion(i);
         grid.appendChild(b);
       }
     }
 
     window.finishAttemptAndShowScoreboard = async function () {
       if (state.qTimerInterval) clearInterval(state.qTimerInterval);
-      if (state.totalClockInterval) clearInterval(state.totalClockInterval);
-      state.isPaused = true;
-      saveCurrentQuizProgressLocally('Completed');
+      if (state.totalTimerInterval) clearInterval(state.totalTimerInterval);
+      state.isPaused = false;
+      clearSavedQuizProgressLocally(state.activeQuizId);
       await syncAttemptToCloud('Completed');
-      state.scoreboardFilter = state.activeQuizId;
-      window.setScoreboardFilter(state.activeQuizId);
+      renderDashboardCards();
+      showToast(`Quiz ${state.activeQuizId} submitted! Check your Rank on the Common Scoreboard.`, 'success');
       window.switchView('scoreboard');
-      showToast(`Quiz ${state.activeQuizId} submitted! View your rank on the Common Scoreboard.`, 'success');
     };
 
     // =========================================================================
-    // 6. COMMON SCOREBOARD & INDIVIDUAL DETAILED SCORECARD
+    // 6. COMMON RANKED SCOREBOARD (QUIZ 1, QUIZ 2 & OVERALL RANKS + TIME TAKEN)
     // =========================================================================
-    window.switchView = function (viewName, preserveTimer = false) {
-      state.view = viewName;
-      ['entry', 'poll', 'scoreboard', 'detail'].forEach((v) => {
-        document.getElementById(`view-${v}`).classList.toggle('hidden', v !== viewName);
-      });
-
-      const pollBtn = document.getElementById('nav-btn-poll');
-      pollBtn.classList.toggle('hidden', !state.joined);
-
-      if (viewName === 'entry') {
-        renderDashboardCards();
-        renderEntryMiniScoreboard();
-      } else if (viewName === 'poll') {
-        state.isPaused = false;
-        startTotalElapsedClock();
-        renderPollQuestion(preserveTimer);
-      } else if (viewName === 'scoreboard') {
-        renderScoreboard();
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     window.setScoreboardFilter = function (filterVal) {
       state.scoreboardFilter = filterVal;
       ['all', 1, 2].forEach((k) => {
-        const el = document.getElementById(`sb-filter-${k}`);
-        if (!el) return;
-        if (k === filterVal) {
-          el.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold bg-white text-slate-900 shadow-xs cursor-pointer';
+        const btn = document.getElementById(`sb-filter-${k}`);
+        if (!btn) return;
+        if (String(k) === String(filterVal)) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold bg-white text-slate-900 shadow-xs cursor-pointer';
         } else {
-          el.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 cursor-pointer';
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 cursor-pointer';
         }
       });
       renderScoreboard();
     };
 
     function getFilteredScoreboardRecords() {
-      if (state.scoreboardFilter === 'all') return state.allAttempts;
-      return state.allAttempts.filter((r) => r.quizId === Number(state.scoreboardFilter));
+      if (state.scoreboardFilter === 1 || state.scoreboardFilter === 2) {
+        return state.allAttempts.filter((r) => r.quizId === state.scoreboardFilter);
+      }
+      return state.allAttempts;
     }
 
     function renderEntryMiniScoreboard() {
       const box = document.getElementById('entry-mini-scoreboard');
-      const top6 = state.allAttempts.slice(0, 6);
-      if (top6.length === 0) {
-        box.innerHTML = `<div class="col-span-full text-xs text-slate-400 py-5 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200">No attempts recorded yet in Room <strong>${escapeHtml(state.roomCode)}</strong>. Start Quiz 1 or Quiz 2 above!</div>`;
+      const list = state.allAttempts.slice(0, 6);
+      if (list.length === 0) {
+        box.innerHTML = `<div class="col-span-full text-xs text-slate-400 py-5 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200">No attempts recorded yet in this room. Start Quiz 1 or Quiz 2 above!</div>`;
         return;
       }
-
-      box.innerHTML = top6
-        .map(
-          (r, i) => `
-          <button type="button" onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 text-left transition cursor-pointer">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span class="w-6 h-6 rounded-full font-extrabold text-xs flex items-center justify-center shrink-0 ${
-                i === 0 ? 'bg-amber-400 text-slate-950' : 'bg-slate-200 text-slate-700'
-              }">#${i + 1}</span>
-              <div class="truncate">
-                <div class="text-xs font-bold text-slate-900 truncate">${escapeHtml(r.userName)}</div>
-                <div class="text-[10px] text-slate-500">Quiz ${r.quizId} • ${r.answered}/120 Qs • ${formatDuration(r.timeTakenSeconds)}</div>
-              </div>
+      box.innerHTML = list
+        .map((r, i) => `
+          <div onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 flex items-center justify-between gap-2 cursor-pointer transition">
+            <div class="min-w-0">
+              <div class="text-xs font-extrabold text-slate-900 truncate">#${i + 1} ${escapeHtml(r.userName)}</div>
+              <div class="text-[11px] text-slate-500">Quiz ${r.quizId} • ${r.status} • ${formatDuration(r.timeTakenSeconds)}</div>
             </div>
             <div class="text-right shrink-0">
-              <div class="text-xs font-extrabold text-emerald-700">${r.netScore.toFixed(2)}</div>
-              <div class="text-[10px] text-sky-600 font-bold">Details →</div>
+              <div class="text-xs font-extrabold text-sky-700">${r.netScore.toFixed(2)}</div>
+              <div class="text-[10px] text-slate-500">${r.correct}✓ / ${r.wrong}✕</div>
             </div>
-          </button>
-        `
-        )
+          </div>
+        `)
         .join('');
     }
 
     function renderScoreboard() {
-      const filtered = getFilteredScoreboardRecords();
-      const filterLabel = state.scoreboardFilter === 'all' ? 'All Quizzes' : `Quiz ${state.scoreboardFilter} (120 Qs)`;
-      document.getElementById('sb-title').textContent = `Common Scoreboard (${filterLabel}) — Room ${state.roomCode}`;
-
       const podium = document.getElementById('sb-podium');
       const tbody = document.getElementById('sb-tbody');
-      podium.innerHTML = '';
-      tbody.innerHTML = '';
+      const list = getFilteredScoreboardRecords();
 
-      if (filtered.length === 0) {
-        podium.innerHTML = `
-          <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-8 text-center">
-            <h3 class="text-base font-bold text-slate-800">No Participants Yet for ${filterLabel}</h3>
-            <p class="text-xs text-slate-500 mt-1">Go to the Quiz Dashboard to start Quiz 1 or Quiz 2.</p>
-          </div>
-        `;
+      if (list.length === 0) {
+        podium.innerHTML = '';
+        tbody.innerHTML = `<tr><td colspan="11" class="py-10 text-center text-sm text-slate-400">No participants recorded for this filter yet.</td></tr>`;
         return;
       }
 
-      const podiumStyles = [
-        { label: 'Rank #1', border: 'border-amber-400', pill: 'bg-amber-400 text-slate-950' },
-        { label: 'Rank #2', border: 'border-slate-300', pill: 'bg-slate-200 text-slate-800' },
-        { label: 'Rank #3', border: 'border-orange-300', pill: 'bg-orange-200 text-orange-950' }
-      ];
-
-      podiumStyles.forEach((st, idx) => {
-        const r = filtered[idx];
-        if (!r) return;
-        const card = document.createElement('div');
-        card.className = `bg-white rounded-2xl border-2 ${st.border} p-4 shadow-sm flex flex-col justify-between`;
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold ${st.pill}">${st.label}</span>
-              <span class="text-xs font-mono font-bold text-slate-500">⏱ ${formatDuration(r.timeTakenSeconds)}</span>
+      const medals = ['🥇 Rank #1', '🥈 Rank #2', '🥉 Rank #3'];
+      const cardBorders = ['border-amber-400 bg-amber-50/50', 'border-slate-300 bg-slate-50', 'border-orange-300 bg-orange-50/40'];
+      podium.innerHTML = list
+        .slice(0, 3)
+        .map((r, idx) => `
+          <div onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="rounded-2xl border-2 ${cardBorders[idx]} p-4 shadow-xs cursor-pointer hover:shadow-md transition">
+            <div class="flex items-center justify-between text-xs font-extrabold mb-1.5">
+              <span>${medals[idx]}</span>
+              <span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-700">Quiz ${r.quizId}</span>
             </div>
-            <h3 class="text-base font-extrabold text-slate-900 truncate">${escapeHtml(r.userName)}</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Quiz ${r.quizId} • ${r.correct}✓ / ${r.wrong}✕ (${r.answered}/120 Qs)</p>
+            <div class="font-extrabold text-base text-slate-900 truncate">${escapeHtml(r.userName)}</div>
+            <div class="mt-2 flex items-baseline justify-between">
+              <span class="text-xl font-extrabold text-sky-700">${r.netScore.toFixed(2)} <span class="text-xs font-semibold text-slate-500">pts</span></span>
+              <span class="text-xs font-mono font-bold text-slate-600">⏱ ${formatDuration(r.timeTakenSeconds)}</span>
+            </div>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
-            <span class="text-lg font-extrabold text-emerald-700">${r.netScore.toFixed(2)} <span class="text-xs font-normal text-slate-400">pts</span></span>
-            <button type="button" onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold cursor-pointer">
-              Scorecard
-            </button>
-          </div>
-        `;
-        podium.appendChild(card);
-      });
+        `)
+        .join('');
 
-      filtered.forEach((r, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition-colors';
-        const statusCls =
-          r.status === 'Completed'
+      const myUid = getEffectiveUserId();
+      tbody.innerHTML = list
+        .map((r, idx) => {
+          const isMe = r.uid === myUid;
+          const statusCls = r.status === 'Completed'
             ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
             : r.status === 'Paused'
             ? 'bg-amber-50 text-amber-800 border-amber-200'
             : 'bg-sky-50 text-sky-700 border-sky-200';
-
-        tr.innerHTML = `
-          <td class="py-3.5 px-4 font-extrabold text-slate-900">#${idx + 1}</td>
-          <td class="py-3.5 px-4">
-            <div class="font-bold text-slate-900">${escapeHtml(r.userName)}</div>
-            <div class="text-[11px] text-slate-500">${r.correct} Correct • ${r.wrong} Wrong (${r.answered}/120)</div>
-          </td>
-          <td class="py-3.5 px-4 text-center">
-            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-bold">Quiz ${r.quizId}</span>
-          </td>
-          <td class="py-3.5 px-4 text-center">
-            <span class="px-2 py-0.5 rounded-full border text-[11px] font-bold ${statusCls}">${escapeHtml(r.status)}</span>
-          </td>
-          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[0].toFixed(2)}</td>
-          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[1].toFixed(2)}</td>
-          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[2].toFixed(2)}</td>
-          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[3].toFixed(2)}</td>
-          <td class="py-3.5 px-4 text-center font-mono font-bold text-slate-700">${formatDuration(r.timeTakenSeconds)}</td>
-          <td class="py-3.5 px-4 text-right font-extrabold text-emerald-700 text-base">${r.netScore.toFixed(2)}</td>
-          <td class="py-3.5 px-4 text-right">
-            <button type="button" onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold cursor-pointer">
-              View
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+          return `
+            <tr class="${isMe ? 'bg-sky-50/70' : 'hover:bg-slate-50'} transition">
+              <td class="py-3 px-4 font-extrabold text-slate-900">#${idx + 1}</td>
+              <td class="py-3 px-4">
+                <div class="font-bold text-slate-900">${escapeHtml(r.userName)} ${isMe ? '<span class="text-[10px] font-extrabold text-sky-600">(You)</span>' : ''}</div>
+                <div class="text-[11px] text-slate-500">${r.correct} Right • ${r.wrong} Wrong (${r.answeredCount}/120)</div>
+              </td>
+              <td class="py-3 px-4 text-center">
+                <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-extrabold">Quiz ${r.quizId}</span>
+              </td>
+              <td class="py-3 px-4 text-center">
+                <span class="px-2 py-0.5 rounded-full border text-[11px] font-bold ${statusCls}">${escapeHtml(r.status)}</span>
+              </td>
+              <td class="py-3 px-4 text-center font-semibold text-slate-700">${r.secCorrect[0]}/30</td>
+              <td class="py-3 px-4 text-center font-semibold text-slate-700">${r.secCorrect[1]}/30</td>
+              <td class="py-3 px-4 text-center font-semibold text-slate-700">${r.secCorrect[2]}/30</td>
+              <td class="py-3 px-4 text-center font-semibold text-slate-700">${r.secCorrect[3]}/30</td>
+              <td class="py-3 px-4 text-center font-mono font-bold text-slate-800">${formatDuration(r.timeTakenSeconds)}</td>
+              <td class="py-3 px-4 text-right font-extrabold text-base text-slate-900">${r.netScore.toFixed(2)}</td>
+              <td class="py-3 px-4 text-right">
+                <button
+                  type="button"
+                  onclick="openAttemptDetail('${escapeHtml(r.docId)}')"
+                  class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition cursor-pointer"
+                >
+                  Scorecard
+                </button>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
     }
 
-    window.openAttemptDetail = function (docId) {
+    window.openAttemptDetail = function (docId, preserveScroll = false) {
       const rankIdx = state.allAttempts.findIndex((r) => r.docId === docId);
       if (rankIdx < 0) return;
+      state.activeDetailDocId = docId;
       const r = state.allAttempts[rankIdx];
       const qList = QUESTION_SETS[r.quizId] || QUESTION_SETS[1];
       const letters = ['A', 'B', 'C', 'D'];
 
       const container = document.getElementById('detail-card-container');
+      const answeredKeys = Object.keys(r.answers);
+
       container.innerHTML = `
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
           <div>
-            <span class="px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 text-xs font-extrabold">
-              Overall Rank #${rankIdx + 1} • Quiz ${r.quizId} (${r.quizId === 2 ? 'Bank Q.121–240' : 'Bank Q.1–120'})
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-extrabold">
+              Rank #${rankIdx + 1} • Quiz ${r.quizId} (120 Questions) • ${escapeHtml(r.status)}
             </span>
             <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">${escapeHtml(r.userName)}</h2>
-            <p class="text-xs text-slate-500 mt-0.5">Status: <strong>${escapeHtml(r.status)}</strong> • Time Taken: <strong>${formatDuration(r.timeTakenSeconds)}</strong> • Answered: ${r.answered}/120</p>
+            <p class="text-xs text-slate-500">Room: ${escapeHtml(state.roomCode)} • Total Time Taken: <strong>${formatDuration(r.timeTakenSeconds)}</strong></p>
           </div>
-          <div class="flex items-center gap-4 bg-slate-900 text-white px-5 py-3 rounded-xl">
-            <div class="text-center pr-4 border-r border-slate-700">
-              <div class="text-[10px] uppercase text-slate-400">Rank</div>
-              <div class="text-xl font-extrabold text-amber-400">#${rankIdx + 1}</div>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-3 rounded-xl bg-sky-50 border border-sky-200">
+              <div class="text-[10px] font-extrabold uppercase text-sky-700">Net Score</div>
+              <div class="text-lg font-extrabold text-slate-900">${r.netScore.toFixed(2)}</div>
             </div>
-            <div class="text-center">
-              <div class="text-[10px] uppercase text-slate-400">Net Score</div>
-              <div class="text-xl font-extrabold text-emerald-400">${r.netScore.toFixed(2)}</div>
+            <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+              <div class="text-[10px] font-extrabold uppercase text-emerald-700">Right</div>
+              <div class="text-lg font-extrabold text-emerald-700">${r.correct}</div>
+            </div>
+            <div class="p-3 rounded-xl bg-rose-50 border border-rose-200">
+              <div class="text-[10px] font-extrabold uppercase text-rose-700">Wrong</div>
+              <div class="text-lg font-extrabold text-rose-700">${r.wrong}</div>
             </div>
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          ${SECTION_NAMES.map(
-            (sName, sIdx) => `
+          ${SECTION_NAMES.map((name, sIdx) => `
             <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-              <div class="text-[11px] font-extrabold uppercase text-slate-400">Section ${sIdx + 1} (30 Qs)</div>
-              <div class="text-xs font-bold text-slate-800 truncate mt-0.5">${escapeHtml(sName)}</div>
-              <div class="text-base font-extrabold text-sky-700 mt-1">${r.secScores[sIdx].toFixed(2)} pts</div>
+              <div class="text-[11px] font-extrabold uppercase text-slate-400">Section ${sIdx + 1}</div>
+              <div class="text-xs font-bold text-slate-800 truncate mt-0.5">${escapeHtml(name)}</div>
+              <div class="text-lg font-extrabold text-slate-900 mt-1">${r.secCorrect[sIdx]} <span class="text-xs font-normal text-slate-500">/ 30</span></div>
             </div>
-          `
-          ).join('')}
+          `).join('')}
         </div>
 
-        <div class="space-y-3 pt-2">
-          <h3 class="text-sm font-extrabold text-slate-900">Answered Questions Breakdown</h3>
+        <div class="space-y-2.5 max-h-[32rem] overflow-y-auto pr-1">
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-600">Attempted Questions Breakdown (${answeredKeys.length}/120)</h3>
           ${
-            Object.keys(r.answers).length === 0
-              ? `<p class="text-xs text-slate-500 bg-slate-50 p-4 rounded-xl border border-dashed border-slate-200">No answers recorded yet for this quiz.</p>`
-              : Object.entries(r.answers)
-                  .sort((a, b) => Number(a[0]) - Number(b[0]))
-                  .map(([qiStr, oiVal]) => {
+            answeredKeys.length === 0
+              ? `<p class="text-xs text-slate-400 py-4">No questions answered yet.</p>`
+              : answeredKeys
+                  .sort((a, b) => Number(a) - Number(b))
+                  .map((qiStr) => {
                     const qi = Number(qiStr);
-                    const oi = Number(oiVal);
+                    const oi = Number(r.answers[qiStr]);
                     const qObj = qList[qi];
                     const ok = oi === qObj.correct;
+                    const qVoters = (state.voteVoters[r.quizId] && state.voteVoters[r.quizId][qi]) || [[], [], [], []];
+                    const optionSummaryChips = [0, 1, 2, 3]
+                      .map((optI) => {
+                        const list = qVoters[optI] || [];
+                        const namesStr = list.length > 0 ? list.map((v) => v.name).join(', ') : 'None';
+                        const isRightOpt = optI === qObj.correct;
+                        return `<span class="px-2 py-0.5 rounded border text-[11px] ${
+                          isRightOpt
+                            ? 'bg-emerald-100/80 border-emerald-300 text-emerald-900 font-bold'
+                            : 'bg-white border-slate-200 text-slate-600'
+                        }"><strong>(${letters[optI]})</strong> ${list.length}: ${escapeHtml(namesStr)}</span>`;
+                      })
+                      .join(' ');
                     return `
-                      <div class="p-3.5 rounded-xl border ${ok ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'} text-xs space-y-1">
+                      <div class="p-3.5 rounded-xl border ${ok ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'} text-xs space-y-1.5">
                         <div class="flex justify-between font-bold">
                           <span class="text-slate-700">Q.${qi + 1} (${escapeHtml(qObj.sectionName)})</span>
                           <span class="${ok ? 'text-emerald-700' : 'text-rose-700'}">
@@ -2275,6 +2324,7 @@
                           </span>
                         </div>
                         <p class="font-semibold text-slate-900 whitespace-pre-line">${escapeHtml(qObj.question)}</p>
+                        <div class="flex flex-wrap gap-1.5 pt-0.5">${optionSummaryChips}</div>
                         <p class="text-slate-600"><strong>Explanation:</strong> ${escapeHtml(qObj.explanation)}</p>
                       </div>
                     `;
@@ -2284,45 +2334,90 @@
         </div>
       `;
 
-      window.switchView('detail');
+      if (!preserveScroll) {
+        window.switchView('detail');
+      }
     };
 
     window.copyRoomInviteLink = function () {
-      const shareUrl = new URL(window.location.href);
-      shareUrl.searchParams.set('room', state.roomCode);
-      const msg = `Join my Live UPPSC Quiz Poll (Room: ${state.roomCode}) — 4 Sections × 30 Qs (25 Yrs PYQs & Chronology)! Link: ${shareUrl.toString()}`;
+      const url = new URL(window.location.href);
+      url.searchParams.set('room', state.roomCode);
+      const shareStr = url.toString();
+
       const ta = document.createElement('textarea');
-      ta.value = msg;
+      ta.value = shareStr;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
       document.body.appendChild(ta);
       ta.select();
-      document.execCommand('copy');
+      try {
+        document.execCommand('copy');
+        showToast(`Invite link for Room ${state.roomCode} copied! Share it so others join live.`, 'success');
+      } catch (_) {
+        showToast(`Share Room Code: ${state.roomCode}`, 'info');
+      }
       document.body.removeChild(ta);
-      showToast(`Room ${state.roomCode} link copied! Share with your friends.`, 'success');
     };
 
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toast-container');
+    window.createPrivateRoom = function () {
+      const code = `UPPSC-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      document.getElementById('room-code-input').value = code;
+      window.applyRoomCodeChange();
+    };
+
+    window.switchView = function (target) {
+      state.view = target;
+      ['entry', 'poll', 'scoreboard', 'detail'].forEach((v) => {
+        document.getElementById(`view-${v}`).classList.toggle('hidden', v !== target);
+      });
+      if (target === 'entry') renderDashboardCards();
+      if (target === 'scoreboard') renderScoreboard();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    function formatDuration(sec) {
+      const s = Math.max(0, Math.floor(Number(sec) || 0));
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${String(m).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
+    }
+
+    function getInitials(name) {
+      const parts = String(name || 'U').trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function showToast(msg, type = 'info') {
+      const box = document.getElementById('toast-container');
       const el = document.createElement('div');
-      const styles = {
-        success: 'bg-emerald-600 text-white border-emerald-500',
-        error: 'bg-rose-600 text-white border-rose-500',
-        info: 'bg-slate-900 text-white border-slate-700'
-      };
-      el.className = `${styles[type] || styles.info} px-4 py-3 rounded-xl shadow-lg border text-xs sm:text-sm font-semibold pointer-events-auto`;
-      el.textContent = message;
-      container.appendChild(el);
+      const tone = type === 'error'
+        ? 'bg-rose-600 text-white'
+        : type === 'success'
+        ? 'bg-emerald-600 text-white'
+        : type === 'warn'
+        ? 'bg-amber-600 text-white'
+        : 'bg-slate-900 text-white';
+      el.className = `pointer-events-auto px-4 py-3 rounded-xl shadow-lg text-xs font-bold ${tone} animate-pop-in`;
+      el.textContent = msg;
+      box.appendChild(el);
       setTimeout(() => {
         el.style.opacity = '0';
-        el.style.transition = 'opacity 250ms ease';
-        setTimeout(() => el.remove(), 250);
+        el.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => el.remove(), 260);
       }, 3200);
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initApp);
-    } else {
-      initApp();
-    }
+    initApp();
   </script>
 </body>
 </html>
