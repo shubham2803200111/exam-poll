@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UPPSC Prelims Live Quiz Poll — 4 Sections × 30 Qs (240 PYQs Bank)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e2e8f0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 9999px;
+    }
+    .poll-bar-fill {
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.97); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop-in {
+      animation: popIn 0.22s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-100 text-slate-900">
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- Sticky Dark Slate Header -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40 shadow-md">
+    <div class="max-w-5xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2">
+      <!-- Brand -->
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center font-extrabold text-white text-sm shadow shrink-0">
+          UP
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-sm sm:text-base tracking-tight text-white truncate">UPPSC Live Poll</span>
+            <span id="header-set-pill" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-500/20 text-sky-300 border border-sky-400/30 shrink-0">
+              QUIZ 1 &amp; 2 (240 Qs)
+            </span>
+          </div>
+          <p id="header-room-subtitle" class="text-[11px] text-slate-400 truncate">
+            4 Sections × 30 Qs • 25 Yrs UPPCS PYQs
+          </p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button
+          onclick="copyRoomInviteLink()"
+          class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition flex items-center gap-1.5"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+          </svg>
+          <span class="hidden sm:inline">Share Link</span>
+        </button>
+
+        <button
+          onclick="saveAndExitToDashboard()"
+          id="nav-btn-dashboard"
+          class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+        >
+          Dashboard
+        </button>
+
+        <button
+          onclick="switchView('poll')"
+          id="nav-btn-poll"
+          class="hidden px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-600 text-white transition"
+        >
+          Live Poll
+        </button>
+
+        <button
+          onclick="switchView('scoreboard')"
+          id="nav-btn-scoreboard"
+          class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition flex items-center gap-1.5"
+        >
+          <span>Scoreboard</span>
+          <span id="header-scoreboard-count" class="px-1.5 py-0.2 text-[10px] font-extrabold rounded-full bg-amber-400 text-slate-950">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- LIVE ONLINE USERS PRESENCE STRIP -->
+    <div class="bg-slate-950/90 border-t border-slate-800/80">
+      <div class="max-w-5xl mx-auto px-3 sm:px-6 py-2 flex items-center gap-3 overflow-x-auto">
+        <div class="flex items-center gap-1.5 shrink-0 text-[11px] font-extrabold text-emerald-400 uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span id="live-users-count-label">Live Users (0):</span>
+        </div>
+        <div id="live-users-strip" class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+          <span class="text-xs text-slate-400 italic">Waiting for participants to enter room...</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAUSE QUIZ MODAL -->
+  <div id="pause-modal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 max-w-md w-full p-6 shadow-2xl space-y-4 animate-pop-in">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-extrabold text-lg shrink-0">
+          ⏸
+        </div>
+        <div>
+          <h3 id="pause-modal-title" class="text-lg font-extrabold text-slate-900">Quiz 1 Paused</h3>
+          <p class="text-xs text-slate-500">All answers &amp; timers have been automatically saved.</p>
+        </div>
+      </div>
+
+      <div id="pause-modal-stats" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
+        <div>Saved Position: <strong>Question 1 of 120</strong></div>
+        <div>Question Timer Frozen At: <strong>40s remaining</strong></div>
+        <div>Total Time Elapsed: <strong>00:00</strong></div>
+      </div>
+
+      <div class="space-y-2.5 pt-1">
+        <button
+          type="button"
+          onclick="resumePausedQuiz()"
+          class="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow transition flex items-center justify-center gap-2"
+        >
+          <span>▶ Resume Quiz Now</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="saveAndExitToDashboard()"
+          class="w-full py-3 px-4 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm transition flex items-center justify-center gap-2"
+        >
+          <span>🏠 Save &amp; Exit to Dashboard</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="confirmRestartCurrentQuiz()"
+          class="w-full py-2.5 px-4 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-xs transition"
+        >
+          🔄 Restart This Quiz from Start (Q.1)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESTART CONFIRMATION MODAL -->
+  <div id="restart-confirm-modal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 max-w-sm w-full p-5 shadow-2xl space-y-4 animate-pop-in">
+      <h3 id="restart-modal-heading" class="text-base font-extrabold text-slate-900">Start Quiz Again from Q.1?</h3>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        This will clear your saved answers and reset the timer back to <strong>00:00</strong> at <strong>Question 1</strong> for this quiz.
+      </p>
+      <div class="flex items-center justify-end gap-2 pt-1">
+        <button
+          type="button"
+          onclick="closeRestartModal()"
+          class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="btn-confirm-restart-action"
+          class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs"
+        >
+          Yes, Start from Q.1
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-3 sm:px-6 py-5 sm:py-7">
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 1: TWO-QUIZ DASHBOARD (QUIZ 1 & QUIZ 2 — 120 QUESTIONS EACH)     -->
+    <!-- ===================================================================== -->
+    <section id="view-entry" class="space-y-5 animate-pop-in">
+      <!-- Participant Profile & Room Bar -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <span class="px-3 py-1 rounded-full bg-sky-50 text-sky-700 border border-sky-200 text-xs font-extrabold uppercase tracking-wider">
+            UPPSC Prelims GS Dashboard • 2 Full-Length Poll Quizzes (120 Qs Each)
+          </span>
+          <span class="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+            Auto-Save &amp; Pause/Resume Enabled
+          </span>
+        </div>
+
+        <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug">
+          Choose Your Live UPPSC Poll Quiz (120 Questions Each)
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
+          Enter your name and room code below, then launch either <strong>Quiz 1 (120 Questions)</strong> or <strong>Quiz 2 (120 Questions)</strong>. Every quiz has <strong>4 Sections × 30 Questions</strong>, a <strong>40-second timer</strong> per question with instant reveal, raw people vote counts (no percentages), and a <strong>Pause / Auto-Save</strong> engine so you can resume right where you left off anytime.
+        </p>
+
+        <!-- Name & Room Input Strip -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 mt-4 pt-4 border-t border-slate-100">
+          <div class="sm:col-span-6">
+            <label for="user-name-input" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
+              Participant Full Name <span class="text-rose-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="user-name-input"
+              required
+              maxlength="32"
+              placeholder="Enter your name (e.g., Ankit Verma)"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+          </div>
+
+          <div class="sm:col-span-6">
+            <label for="room-code-input" class="block text-[11px] font-extrabold uppercase tracking-wider text-slate-700 mb-1">
+              Shared Room Code (Same Code = Live Together)
+            </label>
+            <div class="flex gap-1.5">
+              <input
+                type="text"
+                id="room-code-input"
+                maxlength="20"
+                value="UPPSC-240"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-sky-700 font-mono text-sm font-extrabold uppercase focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+              <button
+                type="button"
+                onclick="applyRoomCodeChange()"
+                class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shrink-0"
+              >
+                Join Room
+              </button>
+              <button
+                type="button"
+                onclick="createPrivateRoom()"
+                class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-xs font-bold text-slate-700 shrink-0"
+              >
+                New
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TWO DEDICATED QUIZ CARDS ON DASHBOARD (QUIZ 1 & QUIZ 2 — 120 Qs EACH) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <!-- QUIZ 1 CARD -->
+        <div id="dashboard-card-quiz1" class="bg-white rounded-2xl border-2 border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-4"></div>
+
+        <!-- QUIZ 2 CARD -->
+        <div id="dashboard-card-quiz2" class="bg-white rounded-2xl border-2 border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-4"></div>
+      </div>
+
+      <!-- Common Scoreboard Preview Strip -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900">Common Room Scoreboard (Quiz 1 &amp; Quiz 2)</h3>
+            <p id="entry-room-subtitle" class="text-xs text-slate-500">Room: UPPSC-240</p>
+          </div>
+          <button onclick="switchView('scoreboard')" class="px-3.5 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-extrabold transition">
+            Open Full Ranked Scoreboard →
+          </button>
+        </div>
+        <div id="entry-mini-scoreboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          <div class="col-span-full text-xs text-slate-400 py-5 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200">
+            No attempts recorded yet in this room. Start Quiz 1 or Quiz 2 above!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 2: ACTIVE LIVE QUIZ POLL (4 SECTIONS × 30 QUESTIONS = 120 Qs)    -->
+    <!-- ===================================================================== -->
+    <section id="view-poll" class="hidden space-y-4">
+      <!-- 4 Section Tabs (30 Questions each) -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+        <button
+          type="button"
+          onclick="switchSection(0)"
+          id="sec-tab-0"
+          class="p-2.5 rounded-xl border text-left transition bg-sky-600 text-white border-sky-600 shadow-sm"
+        >
+          <div class="flex items-center justify-between text-[10px] font-extrabold uppercase opacity-90">
+            <span>Section 1</span>
+            <span id="sec-count-0">0/30</span>
+          </div>
+          <div class="text-xs font-bold truncate mt-0.5">Governor-Generals</div>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchSection(1)"
+          id="sec-tab-1"
+          class="p-2.5 rounded-xl border text-left transition bg-white text-slate-700 border-slate-200 hover:border-sky-400"
+        >
+          <div class="flex items-center justify-between text-[10px] font-extrabold uppercase text-slate-400">
+            <span>Section 2</span>
+            <span id="sec-count-1">0/30</span>
+          </div>
+          <div class="text-xs font-bold truncate mt-0.5">British Wars &amp; Treaties</div>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchSection(2)"
+          id="sec-tab-2"
+          class="p-2.5 rounded-xl border text-left transition bg-white text-slate-700 border-slate-200 hover:border-sky-400"
+        >
+          <div class="flex items-center justify-between text-[10px] font-extrabold uppercase text-slate-400">
+            <span>Section 3</span>
+            <span id="sec-count-2">0/30</span>
+          </div>
+          <div class="text-xs font-bold truncate mt-0.5">Env. Laws &amp; Protocols</div>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchSection(3)"
+          id="sec-tab-3"
+          class="p-2.5 rounded-xl border text-left transition bg-white text-slate-700 border-slate-200 hover:border-sky-400"
+        >
+          <div class="flex items-center justify-between text-[10px] font-extrabold uppercase text-slate-400">
+            <span>Section 4</span>
+            <span id="sec-count-3">0/30</span>
+          </div>
+          <div class="text-xs font-bold truncate mt-0.5">Reforms &amp; Chronology</div>
+        </button>
+      </div>
+
+      <!-- Status Strip: Quiz Badge, Live Score, Elapsed Time, Pause Button, Finish Button -->
+      <div class="bg-white rounded-xl border border-slate-200 px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 shadow-sm">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span id="poll-attempt-badge" class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-extrabold">
+            Quiz 1 (120 Qs)
+          </span>
+          <span id="poll-score-pill" class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-extrabold">
+            Score: 0.00 (0✓ / 0✕)
+          </span>
+          <span id="poll-total-time-pill" class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-mono font-bold">
+            Time: 00:00
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            onclick="pauseCurrentQuiz()"
+            class="px-3 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs font-extrabold transition flex items-center gap-1"
+          >
+            <span>⏸ Pause Quiz</span>
+          </button>
+          <button
+            type="button"
+            onclick="togglePaletteDrawer()"
+            class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300 transition"
+          >
+            Q. Grid (<span id="poll-answered-total">0</span>/120)
+          </button>
+          <button
+            type="button"
+            onclick="finishAttemptAndShowScoreboard()"
+            class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-sm transition"
+          >
+            Submit &amp; Rank
+          </button>
+        </div>
+      </div>
+
+      <!-- Collapsible 30-Question Section Palette -->
+      <div id="palette-drawer" class="hidden bg-white rounded-2xl border border-slate-200 p-4 shadow-md space-y-3 animate-pop-in">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+          <span id="palette-section-title" class="text-xs font-extrabold uppercase tracking-wider text-slate-700">
+            Section 1 Palette (Q.1 – Q.30)
+          </span>
+          <button onclick="togglePaletteDrawer()" class="text-xs font-bold text-slate-400 hover:text-slate-700">Close ✕</button>
+        </div>
+        <div id="palette-grid" class="grid grid-cols-10 gap-1.5"></div>
+      </div>
+
+      <!-- TELEGRAM-STYLE CRISP WHITE POLL CARD -->
+      <article class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <!-- 40-Second Top Progress Bar -->
+        <div class="w-full h-1.5 bg-slate-100">
+          <div id="q-timer-bar" class="h-full bg-sky-500 transition-all duration-1000 ease-linear" style="width: 100%"></div>
+        </div>
+
+        <!-- Card Header -->
+        <div class="px-4 sm:px-6 pt-4 pb-2 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span id="poll-q-number" class="px-2.5 py-0.5 rounded-md bg-sky-600 text-white text-xs font-extrabold">
+              Q. 1 / 120
+            </span>
+            <span id="poll-q-meta" class="text-xs font-bold text-slate-500">
+              Section 1 • UPPCS PYQ
+            </span>
+          </div>
+
+          <!-- 40-Second Countdown Badge -->
+          <div id="q-timer-badge" class="px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0">
+            <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span id="q-timer-text">40s</span>
+          </div>
+        </div>
+
+        <!-- Question Text -->
+        <div class="px-4 sm:px-6 py-2.5">
+          <h2 id="poll-q-text" class="text-base sm:text-lg font-bold text-slate-900 leading-relaxed whitespace-pre-line">
+            Loading question...
+          </h2>
+        </div>
+
+        <!-- Poll Options (Shows RAW PEOPLE COUNTS, NO PERCENTAGES after click or timeout) -->
+        <div id="poll-options-box" class="px-4 sm:px-6 py-3 space-y-2.5"></div>
+
+        <!-- Instant Explanation Box (Revealed immediately on click or timeout) -->
+        <div id="poll-explanation-box" class="hidden mx-4 sm:mx-6 mb-4 p-4 rounded-xl bg-slate-50 border border-sky-200 animate-pop-in">
+          <div class="flex items-start gap-2.5">
+            <span class="text-lg leading-none mt-0.5">💡</span>
+            <div class="space-y-1">
+              <div id="poll-verdict-label" class="text-xs font-extrabold uppercase tracking-wider text-emerald-700">
+                Correct Answer!
+              </div>
+              <p id="poll-explanation-text" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Poll Footer -->
+        <div class="px-4 sm:px-6 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span id="poll-total-people" class="font-bold text-slate-700">0 people answered this question</span>
+          <span id="poll-hint-text" class="font-semibold text-sky-600">Select an option (40s limit)</span>
+        </div>
+      </article>
+
+      <!-- Instant Navigation Controls (No waiting required once answered!) -->
+      <div class="flex items-center justify-between gap-2 sm:gap-3">
+        <button
+          type="button"
+          id="btn-prev-q"
+          onclick="moveQuestion(-1)"
+          class="px-4 sm:px-5 py-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-sm transition disabled:opacity-40"
+        >
+          ← Previous
+        </button>
+
+        <button
+          type="button"
+          onclick="pauseCurrentQuiz()"
+          class="px-4 py-3 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs sm:text-sm transition"
+        >
+          ⏸ Pause &amp; Save
+        </button>
+
+        <button
+          type="button"
+          id="btn-next-q"
+          onclick="moveQuestion(1)"
+          class="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-extrabold text-sm shadow-md transition"
+        >
+          Next Question →
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 3: COMMON SCOREBOARD (QUIZ 1, QUIZ 2 & OVERALL RANKS)            -->
+    <!-- ===================================================================== -->
+    <section id="view-scoreboard" class="hidden space-y-5 animate-pop-in">
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-extrabold uppercase">
+            Common Live Scoreboard
+          </span>
+          <h1 id="sb-title" class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+            Participant Ranks &amp; Time Taken
+          </h1>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Ranked by Net Score (+1.33 correct, -0.33 wrong) and fastest Time Taken.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Quiz Filter Tabs -->
+          <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+            <button type="button" onclick="setScoreboardFilter('all')" id="sb-filter-all" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-white text-slate-900 shadow-xs">
+              All Quizzes
+            </button>
+            <button type="button" onclick="setScoreboardFilter(1)" id="sb-filter-1" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600">
+              Quiz 1 (120 Qs)
+            </button>
+            <button type="button" onclick="setScoreboardFilter(2)" id="sb-filter-2" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600">
+              Quiz 2 (120 Qs)
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onclick="saveAndExitToDashboard()"
+            class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm transition"
+          >
+            ← Quiz Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- Top 3 Podium -->
+      <div id="sb-podium" class="grid grid-cols-1 sm:grid-cols-3 gap-3.5"></div>
+
+      <!-- Common Scoreboard Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 text-slate-500 text-[11px] font-extrabold uppercase tracking-wider border-b border-slate-200">
+                <th class="py-3.5 px-4">Rank</th>
+                <th class="py-3.5 px-4">Participant</th>
+                <th class="py-3.5 px-4 text-center">Quiz</th>
+                <th class="py-3.5 px-4 text-center">Status</th>
+                <th class="py-3.5 px-4 text-center">Sec 1</th>
+                <th class="py-3.5 px-4 text-center">Sec 2</th>
+                <th class="py-3.5 px-4 text-center">Sec 3</th>
+                <th class="py-3.5 px-4 text-center">Sec 4</th>
+                <th class="py-3.5 px-4 text-center">Time Taken</th>
+                <th class="py-3.5 px-4 text-right">Net Score</th>
+                <th class="py-3.5 px-4 text-right">Details</th>
+              </tr>
+            </thead>
+            <tbody id="sb-tbody" class="divide-y divide-slate-100 text-sm"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 4: INDIVIDUAL PARTICIPANT SCORECARD DETAIL                       -->
+    <!-- ===================================================================== -->
+    <section id="view-detail" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <button
+          onclick="switchView('scoreboard')"
+          class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 font-bold text-xs sm:text-sm transition"
+        >
+          ← Back to Common Scoreboard
+        </button>
+        <button
+          onclick="saveAndExitToDashboard()"
+          class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm transition"
+        >
+          Quiz Dashboard →
+        </button>
+      </div>
+
+      <div id="detail-card-container" class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5"></div>
+    </section>
+
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // =========================================================================
+    // 2. FIREBASE REAL-TIME SYNC & AUTO-SAVE RESUME ENGINE (QUIZ 1 & QUIZ 2)
+    // =========================================================================
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'uppsc-240-live-poll';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+
+    let app = null;
+    let auth = null;
+    let db = null;
+    let currentUser = null;
+    let unsubPresence = null;
+    let unsubAttempts = null;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialRoom = (urlParams.get('room') || 'UPPSC-240').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 20) || 'UPPSC-240';
+
+    function getOrCreatePersistentPlayerId() {
+      try {
+        let pid = localStorage.getItem('uppsc_persistent_player_id');
+        if (!pid) {
+          pid = `usr_${crypto.randomUUID ? crypto.randomUUID().slice(0, 8) : Math.random().toString(36).slice(2, 10)}`;
+          localStorage.setItem('uppsc_persistent_player_id', pid);
+        }
+        return pid;
+      } catch (_) {
+        return `usr_${Math.random().toString(36).slice(2, 10)}`;
+      }
+    }
+
+    const state = {
+      joined: false,
+      isPaused: false,
+      view: 'entry',
+      roomCode: initialRoom,
+      playerId: getOrCreatePersistentPlayerId(),
+      userName: '',
+      activeQuizId: 1, // 1 = Quiz 1 (Q.1–120), 2 = Quiz 2 (Q.121–240)
+      currentSection: 0,
+      currentIndex: 0, // 0..119 inside active quiz
+      answers: {}, // { [0..119]: optionIdx | -1 for timeout }
+      totalElapsedSeconds: 0,
+      totalClockInterval: null,
+      qSecondsLeft: 40,
+      qTimerInterval: null,
+      scoreboardFilter: 'all',
+      liveUsers: [],
+      allAttempts: [],
+      voteCounts: {
+        1: Array.from({ length: 120 }, () => [0, 0, 0, 0]),
+        2: Array.from({ length: 120 }, () => [0, 0, 0, 0])
+      },
+      heartbeatInterval: null
+    };
+
+    function getActiveQuestionList() {
+      return QUESTION_SETS[state.activeQuizId] || QUESTION_SETS[1];
+    }
+
+    function getInitials(name) {
+      const parts = String(name || 'UP').trim().split(/\s+/);
+      if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+      return String(name || 'UP').slice(0, 2).toUpperCase();
+    }
+
+    function formatDuration(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const mins = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${String(mins).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // -------------------------------------------------------------------------
+    // LOCAL SAVE / LOAD HELPERS FOR PAUSE & UNEXPECTED EXIT RECOVERY
+    // -------------------------------------------------------------------------
+    function getSavedProgressStorageKey(roomCode, quizId) {
+      return `uppsc_saved_progress_${roomCode}_quiz${quizId}`;
+    }
+
+    function saveCurrentQuizProgressLocally(explicitStatus = null) {
+      if (!state.joined) return;
+      const quizId = state.activeQuizId;
+      const answeredCount = Object.values(state.answers).filter((v) => Number(v) >= 0).length;
+      const status = explicitStatus || (answeredCount >= 120 ? 'Completed' : state.isPaused ? 'Paused' : 'In Progress');
+
+      const snapshot = {
+        userName: state.userName,
+        roomCode: state.roomCode,
+        quizId,
+        currentIndex: state.currentIndex,
+        currentSection: Math.floor(state.currentIndex / 30),
+        qSecondsLeft: state.qSecondsLeft > 0 ? state.qSecondsLeft : 40,
+        answers: state.answers,
+        totalElapsedSeconds: state.totalElapsedSeconds,
+        status,
+        savedAt: Date.now()
+      };
+
+      try {
+        localStorage.setItem(getSavedProgressStorageKey(state.roomCode, quizId), JSON.stringify(snapshot));
+        if (state.userName) localStorage.setItem('uppsc_last_username', state.userName);
+      } catch (_) {}
+    }
+
+    function loadSavedQuizProgress(roomCode, quizId) {
+      try {
+        const raw = localStorage.getItem(getSavedProgressStorageKey(roomCode, quizId));
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function clearSavedQuizProgress(roomCode, quizId) {
+      try {
+        localStorage.removeItem(getSavedProgressStorageKey(roomCode, quizId));
+      } catch (_) {}
+    }
+
+    // Auto-save when browser tab closes, refreshes, or hides
+    window.addEventListener('beforeunload', () => {
+      if (state.joined) {
+        saveCurrentQuizProgressLocally(state.isPaused ? 'Paused' : 'In Progress');
+      }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden' && state.joined) {
+        saveCurrentQuizProgressLocally(state.isPaused ? 'Paused' : 'In Progress');
+      }
+    });
+
+    async function initFirebase() {
+      document.getElementById('room-code-input').value = state.roomCode;
+      document.getElementById('entry-room-subtitle').textContent = `Room: ${state.roomCode}`;
+
+      try {
+        const savedName = localStorage.getItem('uppsc_last_username') || '';
+        if (savedName) {
+          document.getElementById('user-name-input').value = savedName;
+          state.userName = savedName;
+        }
+      } catch (_) {}
+
+      renderDashboardCards();
+
+      if (!firebaseConfig) {
+        renderLivePresenceStrip();
+        renderScoreboard();
+        return;
+      }
+
+      try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+        currentUser = auth.currentUser;
+        subscribeToRoom(state.roomCode);
+      } catch (err) {
+        console.error('Firebase connection error:', err);
+      }
+    }
+
+    function getEffectiveUserId() {
+      return state.playerId || currentUser?.uid;
+    }
+
+    function subscribeToRoom(roomCode) {
+      if (!db || !currentUser) return;
+      if (unsubPresence) unsubPresence();
+      if (unsubAttempts) unsubAttempts();
+
+      // 1. Live Presence Collection
+      const presenceCol = collection(db, 'artifacts', appId, 'public', 'data', `uppsc240_live_${roomCode}`);
+      unsubPresence = onSnapshot(
+        presenceCol,
+        (snap) => {
+          const now = Date.now();
+          const active = [];
+          snap.forEach((d) => {
+            const data = d.data();
+            if (now - (data.lastSeen || 0) < 180000) {
+              active.push({ id: d.id, ...data });
+            }
+          });
+          if (state.joined && !active.some((u) => u.id === getEffectiveUserId())) {
+            active.unshift({
+              id: getEffectiveUserId(),
+              userName: state.userName,
+              quizId: state.activeQuizId,
+              currentQ: state.currentIndex + 1,
+              isPaused: state.isPaused,
+              lastSeen: now
+            });
+          }
+          state.liveUsers = active;
+          renderLivePresenceStrip();
+          renderDashboardCards();
+        },
+        (err) => console.error('Presence snapshot error:', err)
+      );
+
+      // 2. Attempts & Raw Option Vote Counts Collection
+      const attemptsCol = collection(db, 'artifacts', appId, 'public', 'data', `uppsc240_attempts_${roomCode}`);
+      unsubAttempts = onSnapshot(
+        attemptsCol,
+        (snap) => {
+          const records = [];
+          const counts = {
+            1: Array.from({ length: 120 }, () => [0, 0, 0, 0]),
+            2: Array.from({ length: 120 }, () => [0, 0, 0, 0])
+          };
+
+          snap.forEach((d) => {
+            const data = d.data();
+            const qId = Number(data.quizId || data.attemptNumber) === 2 ? 2 : 1;
+            const ansMap = data.answers || {};
+            const qList = QUESTION_SETS[qId];
+
+            Object.entries(ansMap).forEach(([qIdxStr, optVal]) => {
+              const qi = Number(qIdxStr);
+              const oi = Number(optVal);
+              if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
+                counts[qId][qi][oi] += 1;
+              }
+            });
+
+            records.push(computeAttemptSummary(d.id, data, qList));
+          });
+
+          const myDocKey = `${getEffectiveUserId()}_quiz${state.activeQuizId}`;
+          if (state.joined && !records.some((r) => r.docId === myDocKey)) {
+            const localRec = computeAttemptSummary(
+              myDocKey,
+              {
+                userName: state.userName,
+                quizId: state.activeQuizId,
+                answers: state.answers,
+                timeTakenSeconds: state.totalElapsedSeconds,
+                status: state.isPaused ? 'Paused' : 'Live',
+                updatedAt: Date.now()
+              },
+              getActiveQuestionList()
+            );
+            Object.entries(state.answers).forEach(([qIdxStr, optVal]) => {
+              const qi = Number(qIdxStr);
+              const oi = Number(optVal);
+              if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
+                counts[state.activeQuizId][qi][oi] += 1;
+              }
+            });
+            records.push(localRec);
+          }
+
+          records.sort((a, b) => {
+            if (Math.abs(b.netScore - a.netScore) > 0.001) return b.netScore - a.netScore;
+            if (b.correct !== a.correct) return b.correct - a.correct;
+            return (a.timeTakenSeconds || 99999) - (b.timeTakenSeconds || 99999);
+          });
+
+          state.voteCounts = counts;
+          state.allAttempts = records;
+          document.getElementById('header-scoreboard-count').textContent = records.length;
+
+          renderDashboardCards();
+          renderEntryMiniScoreboard();
+          if (state.view === 'poll') renderPollQuestion();
+          if (state.view === 'scoreboard') renderScoreboard();
+        },
+        (err) => console.error('Attempts snapshot error:', err)
+      );
+    }
+
+    function computeAttemptSummary(docId, raw, qList) {
+      const ansMap = raw.answers || {};
+      const quizId = Number(raw.quizId || raw.attemptNumber) === 2 ? 2 : 1;
+      let correct = 0;
+      let wrong = 0;
+      let answered = 0;
+      const secScores = [0, 0, 0, 0];
+
+      Object.entries(ansMap).forEach(([qIdxStr, optVal]) => {
+        const qi = Number(qIdxStr);
+        const oi = Number(optVal);
+        if (qi >= 0 && qi < 120 && oi >= 0 && oi <= 3) {
+          answered++;
+          const secIdx = Math.floor(qi / 30);
+          if (qList[qi].correct === oi) {
+            correct++;
+            secScores[secIdx] = Number((secScores[secIdx] + 1.33).toFixed(2));
+          } else {
+            wrong++;
+            secScores[secIdx] = Number((secScores[secIdx] - 0.33).toFixed(2));
+          }
+        }
+      });
+
+      const netScore = Number((correct * 1.33 - wrong * 0.33).toFixed(2));
+      return {
+        docId,
+        userName: raw.userName || 'Participant',
+        quizId,
+        status: raw.status || (answered >= 120 ? 'Completed' : 'In Progress'),
+        answers: ansMap,
+        answered,
+        correct,
+        wrong,
+        secScores,
+        netScore,
+        timeTakenSeconds: Number(raw.timeTakenSeconds || 0),
+        updatedAt: raw.updatedAt || Date.now()
+      };
+    }
+
+    async function broadcastPresence() {
+      if (!state.joined) return;
+      const uid = getEffectiveUserId();
+      const now = Date.now();
+      const meObj = {
+        id: uid,
+        userName: state.userName,
+        quizId: state.activeQuizId,
+        currentQ: state.currentIndex + 1,
+        isPaused: state.isPaused,
+        lastSeen: now
+      };
+      state.liveUsers = [meObj, ...state.liveUsers.filter((u) => u.id !== uid)];
+      renderLivePresenceStrip();
+
+      if (!db || !currentUser) return;
+      try {
+        const presRef = doc(db, 'artifacts', appId, 'public', 'data', `uppsc240_live_${state.roomCode}`, uid);
+        await setDoc(presRef, meObj, { merge: true });
+      } catch (_) {}
+    }
+
+    async function syncAttemptToCloud(explicitStatus = null) {
+      if (!state.joined) return;
+      const docKey = `${getEffectiveUserId()}_quiz${state.activeQuizId}`;
+      const statusText = explicitStatus || (state.isPaused ? 'Paused' : 'Live');
+      const payload = {
+        userName: state.userName,
+        quizId: state.activeQuizId,
+        status: statusText,
+        currentIndex: state.currentIndex,
+        qSecondsLeft: state.qSecondsLeft,
+        answers: state.answers,
+        timeTakenSeconds: state.totalElapsedSeconds,
+        updatedAt: Date.now()
+      };
+
+      saveCurrentQuizProgressLocally(statusText);
+
+      const localSummary = computeAttemptSummary(docKey, payload, getActiveQuestionList());
+      const others = state.allAttempts.filter((r) => r.docId !== docKey);
+      const merged = [...others, localSummary].sort((a, b) => {
+        if (Math.abs(b.netScore - a.netScore) > 0.001) return b.netScore - a.netScore;
+        return (a.timeTakenSeconds || 99999) - (b.timeTakenSeconds || 99999);
+      });
+      state.allAttempts = merged;
+      document.getElementById('header-scoreboard-count').textContent = merged.length;
+
+      if (!db || !currentUser) return;
+      try {
+        const attRef = doc(db, 'artifacts', appId, 'public', 'data', `uppsc240_attempts_${state.roomCode}`, docKey);
+        await setDoc(attRef, payload, { merge: true });
+      } catch (err) {
+        console.error('Sync attempt error:', err);
+      }
+    }
+
+    function renderLivePresenceStrip() {
+      const strip = document.getElementById('live-users-strip');
+      const countLbl = document.getElementById('live-users-count-label');
+      countLbl.textContent = `Live Users (${state.liveUsers.length}):`;
+
+      if (state.liveUsers.length === 0) {
+        strip.innerHTML = `<span class="text-xs text-slate-400 italic">No active users yet in Room ${escapeHtml(state.roomCode)}</span>`;
+        return;
+      }
+
+      strip.innerHTML = state.liveUsers
+        .map((u) => {
+          const isMe = u.id === getEffectiveUserId();
+          const qNum = Number(u.quizId || u.attemptNumber) === 2 ? 2 : 1;
+          const statusTag = u.isPaused ? `⏸ Paused (Q.${u.currentQ || 1})` : `Quiz ${qNum} • Q.${u.currentQ || 1}`;
+          return `
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 border ${isMe ? 'border-sky-500/60' : 'border-slate-700'} shrink-0">
+              <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] font-extrabold flex items-center justify-center">
+                ${escapeHtml(getInitials(u.userName))}
+              </span>
+              <span class="text-xs font-bold text-white">${escapeHtml(u.userName)}${isMe ? ' (You)' : ''}</span>
+              <span class="text-[10px] font-semibold ${u.isPaused ? 'text-amber-300' : 'text-sky-300'}">${statusTag}</span>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    // =========================================================================
+    // 3. DASHBOARD RENDERING (QUIZ 1 & QUIZ 2 WITH RESUME OR START AGAIN)
+    // =========================================================================
+    window.applyRoomCodeChange = function () {
+      const raw = document.getElementById('room-code-input').value.trim() || 'UPPSC-240';
+      const code = raw.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 20) || 'UPPSC-240';
+      document.getElementById('room-code-input').value = code;
+      state.roomCode = code;
+      document.getElementById('entry-room-subtitle').textContent = `Room: ${code}`;
+      try {
+        const u = new URL(window.location.href);
+        u.searchParams.set('room', code);
+        window.history.replaceState({}, '', u.toString());
+      } catch (_) {}
+      subscribeToRoom(code);
+      renderDashboardCards();
+      showToast(`Switched to Room ${code}`, 'info');
+    };
+
+    window.createPrivateRoom = function () {
+      const code = `UPPSC-${Math.floor(100 + Math.random() * 900)}`;
+      document.getElementById('room-code-input').value = code;
+      applyRoomCodeChange();
+      showToast(`Created Room ${code}! Share link with friends.`, 'success');
+    };
+
+    function renderDashboardCards() {
+      const quizzes = [
+        {
+          id: 1,
+          title: 'Quiz 1: UPPSC Prelims GS Paper I',
+          subtitle: '120 Questions (Bank Q.1 – Q.120)',
+          accent: 'sky',
+          topics: [
+            'Sec 1 (30 Qs): Governor-Generals & Viceroys (Hastings to Rajaji)',
+            'Sec 2 (30 Qs): British Wars, Carnatic, Mysore, Maratha & Pacts',
+            'Sec 3 (30 Qs): WPA 1972, EPA 1986, Ramsar, Montreal & Kyoto',
+            'Sec 4 (30 Qs): Brahmo/Arya Samaj & UPPSC Chronology PYQs'
+          ]
+        },
+        {
+          id: 2,
+          title: 'Quiz 2: UPPSC Prelims GS Paper II',
+          subtitle: '120 Questions (Bank Q.121 – Q.240)',
+          accent: 'indigo',
+          topics: [
+            'Sec 1 (30 Qs): Viceroys Commissions, Acts & Policies (1773–1947)',
+            'Sec 2 (30 Qs): Anglo-Sikh, Afghan, Burma Wars & Charter Acts',
+            'Sec 3 (30 Qs): NGT, Biodiversity Act, CITES, Nagoya & Paris Pact',
+            'Sec 4 (30 Qs): Peasant Uprisings, Reformers & Freedom Chronology'
+          ]
+        }
+      ];
+
+      quizzes.forEach((qz) => {
+        const card = document.getElementById(`dashboard-card-quiz${qz.id}`);
+        if (!card) return;
+
+        const saved = loadSavedQuizProgress(state.roomCode, qz.id);
+        const liveOnThisQuiz = state.liveUsers.filter((u) => Number(u.quizId || 1) === qz.id).length;
+        const attemptsCount = state.allAttempts.filter((r) => r.quizId === qz.id).length;
+
+        const hasSaved = saved && (Object.keys(saved.answers || {}).length > 0 || saved.currentIndex > 0 || saved.totalElapsedSeconds > 0);
+        const savedAnswered = hasSaved ? Object.values(saved.answers || {}).filter((v) => Number(v) >= 0).length : 0;
+        const isCompleted = saved && saved.status === 'Completed';
+
+        let statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[11px] font-extrabold">Not Started</span>`;
+        if (isCompleted) {
+          statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold">✓ Completed (${savedAnswered}/120)</span>`;
+        } else if (hasSaved) {
+          statusBadge = `<span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-[11px] font-extrabold">⏸ Saved at Q.${(saved.currentIndex || 0) + 1}/120</span>`;
+        }
+
+        const savedBannerHtml = hasSaved
+          ? `
+            <div class="p-3.5 rounded-xl ${isCompleted ? 'bg-emerald-50/70 border-emerald-200' : 'bg-amber-50 border-amber-300'} border space-y-1">
+              <div class="flex items-center justify-between text-xs font-extrabold ${isCompleted ? 'text-emerald-900' : 'text-amber-900'}">
+                <span>${isCompleted ? 'Previous Attempt Saved' : 'Saved Progress Found!'}</span>
+                <span class="font-mono">⏱ ${formatDuration(saved.totalElapsedSeconds || 0)}</span>
+              </div>
+              <p class="text-[11px] ${isCompleted ? 'text-emerald-800' : 'text-amber-800'}">
+                Stopped at <strong>Question ${(saved.currentIndex || 0) + 1} of 120</strong> • <strong>${savedAnswered}</strong> answered • Timer left on Q: <strong>${saved.qSecondsLeft || 40}s</strong>
+              </p>
+            </div>
+          `
+          : '';
+
+        const actionButtonsHtml = hasSaved
+          ? `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              <button
+                type="button"
+                onclick="launchQuiz(${qz.id}, 'resume')"
+                class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow transition flex items-center justify-center gap-1.5"
+              >
+                <span>▶ Continue Where Left Off</span>
+              </button>
+              <button
+                type="button"
+                onclick="promptRestartQuizFromDashboard(${qz.id})"
+                class="py-3 px-4 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-800 hover:text-rose-700 border border-slate-300 hover:border-rose-300 font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5"
+              >
+                <span>🔄 Start Again from Start</span>
+              </button>
+            </div>
+          `
+          : `
+            <button
+              type="button"
+              onclick="launchQuiz(${qz.id}, 'fresh')"
+              class="w-full py-3.5 px-5 rounded-xl ${qz.id === 1 ? 'bg-sky-600 hover:bg-sky-700' : 'bg-indigo-600 hover:bg-indigo-700'} text-white font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2"
+            >
+              <span>Start Quiz ${qz.id} (120 Questions) →</span>
+            </button>
+          `;
+
+        card.className = `bg-white rounded-2xl border-2 ${
+          hasSaved && !isCompleted ? 'border-amber-400' : qz.id === 1 ? 'border-sky-200' : 'border-indigo-200'
+        } p-5 sm:p-6 shadow-sm flex flex-col justify-between space-y-4`;
+
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded-md ${qz.id === 1 ? 'bg-sky-600' : 'bg-indigo-600'} text-white text-xs font-extrabold uppercase">
+                Quiz ${qz.id} • 120 Qs
+              </span>
+              ${statusBadge}
+            </div>
+
+            <div>
+              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">${qz.title}</h2>
+              <p class="text-xs font-semibold text-slate-500 mt-0.5">${qz.subtitle} • 40s / Question • +1.33 / -0.33</p>
+            </div>
+
+            <ul class="space-y-1.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+              ${qz.topics.map((t) => `<li class="text-xs text-slate-700 flex items-start gap-2"><span class="text-sky-600 font-extrabold">•</span><span>${t}</span></li>`).join('')}
+            </ul>
+
+            <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 px-1">
+              <span class="text-emerald-700">● ${liveOnThisQuiz} user(s) live now</span>
+              <span>${attemptsCount} participant(s) on scoreboard</span>
+            </div>
+
+            ${savedBannerHtml}
+          </div>
+
+          <div>
+            ${actionButtonsHtml}
+          </div>
+        `;
+      });
+    }
+
+    function ensureParticipantNameAndRoom() {
+      const inputEl = document.getElementById('user-name-input');
+      let name = inputEl.value.trim();
+      if (!name) {
+        inputEl.focus();
+        inputEl.classList.add('ring-2', 'ring-rose-500', 'border-rose-500');
+        showToast('Please enter your Full Name first to start or resume the quiz!', 'error');
+        return null;
+      }
+      inputEl.classList.remove('ring-2', 'ring-rose-500', 'border-rose-500');
+
+      const roomRaw = document.getElementById('room-code-input').value.trim() || 'UPPSC-240';
+      const roomCode = roomRaw.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 20) || 'UPPSC-240';
+      if (roomCode !== state.roomCode) {
+        state.roomCode = roomCode;
+        subscribeToRoom(roomCode);
+      }
+
+      try {
+        localStorage.setItem('uppsc_last_username', name);
+      } catch (_) {}
+
+      return { name, roomCode };
+    }
+
+    window.launchQuiz = async function (quizId, mode = 'fresh') {
+      const info = ensureParticipantNameAndRoom();
+      if (!info) return;
+
+      const qId = Number(quizId) === 2 ? 2 : 1;
+      const saved = mode === 'resume' ? loadSavedQuizProgress(info.roomCode, qId) : null;
+
+      state.userName = info.name;
+      state.roomCode = info.roomCode;
+      state.activeQuizId = qId;
+      state.joined = true;
+      state.isPaused = false;
+
+      if (saved) {
+        state.currentIndex = Math.min(119, Math.max(0, Number(saved.currentIndex || 0)));
+        state.currentSection = Math.floor(state.currentIndex / 30);
+        state.answers = saved.answers || {};
+        state.totalElapsedSeconds = Number(saved.totalElapsedSeconds || 0);
+        state.qSecondsLeft = Number(saved.qSecondsLeft || 40);
+      } else {
+        clearSavedQuizProgress(info.roomCode, qId);
+        state.currentIndex = 0;
+        state.currentSection = 0;
+        state.answers = {};
+        state.totalElapsedSeconds = 0;
+        state.qSecondsLeft = 40;
+      }
+
+      updateHeaderQuizBadge();
+      startTotalElapsedClock();
+      saveCurrentQuizProgressLocally('Live');
+      await broadcastPresence();
+
+      if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
+      state.heartbeatInterval = setInterval(broadcastPresence, 25000);
+
+      await syncAttemptToCloud('Live');
+      switchView('poll', Boolean(saved));
+      showToast(
+        saved
+          ? `Resumed Quiz ${qId} from Question ${state.currentIndex + 1} (${formatDuration(state.totalElapsedSeconds)} elapsed)!`
+          : `Started Quiz ${qId} (120 Questions) from Question 1!`,
+        'success'
+      );
+    };
+
+    window.promptRestartQuizFromDashboard = function (quizId) {
+      const qId = Number(quizId) === 2 ? 2 : 1;
+      document.getElementById('restart-modal-heading').textContent = `Start Quiz ${qId} Again from Q.1?`;
+      const confirmBtn = document.getElementById('btn-confirm-restart-action');
+      confirmBtn.onclick = () => {
+        closeRestartModal();
+        closePauseModal();
+        launchQuiz(qId, 'fresh');
+      };
+      document.getElementById('restart-confirm-modal').classList.remove('hidden');
+    };
+
+    window.confirmRestartCurrentQuiz = function () {
+      promptRestartQuizFromDashboard(state.activeQuizId);
+    };
+
+    window.closeRestartModal = function () {
+      document.getElementById('restart-confirm-modal').classList.add('hidden');
+    };
+
+    // =========================================================================
+    // 4. PAUSE / RESUME / SAVE & EXIT TO DASHBOARD
+    // =========================================================================
+    window.pauseCurrentQuiz = async function () {
+      if (!state.joined) return;
+      state.isPaused = true;
+      if (state.qTimerInterval) clearInterval(state.qTimerInterval);
+      if (state.totalClockInterval) clearInterval(state.totalClockInterval);
+
+      saveCurrentQuizProgressLocally('Paused');
+      await broadcastPresence();
+      await syncAttemptToCloud('Paused');
+
+      const answeredCount = Object.values(state.answers).filter((v) => Number(v) >= 0).length;
+      document.getElementById('pause-modal-title').textContent = `Quiz ${state.activeQuizId} Paused`;
+      document.getElementById('pause-modal-stats').innerHTML = `
+        <div>Saved Position: <strong>Question ${state.currentIndex + 1} of 120</strong> (${answeredCount} answered)</div>
+        <div>Question Timer Frozen At: <strong>${state.answers[state.currentIndex] !== undefined ? 'Answered' : `${state.qSecondsLeft}s remaining`}</strong></div>
+        <div>Total Time Elapsed: <strong>${formatDuration(state.totalElapsedSeconds)}</strong></div>
+      `;
+      document.getElementById('pause-modal').classList.remove('hidden');
+    };
+
+    window.resumePausedQuiz = async function () {
+      closePauseModal();
+      state.isPaused = false;
+      startTotalElapsedClock();
+      saveCurrentQuizProgressLocally('Live');
+      await broadcastPresence();
+      await syncAttemptToCloud('Live');
+      renderPollQuestion(true);
+      showToast(`Quiz ${state.activeQuizId} Resumed!`, 'info');
+    };
+
+    window.saveAndExitToDashboard = async function () {
+      closePauseModal();
+      if (state.joined) {
+        state.isPaused = true;
+        if (state.qTimerInterval) clearInterval(state.qTimerInterval);
+        if (state.totalClockInterval) clearInterval(state.totalClockInterval);
+        saveCurrentQuizProgressLocally('Paused');
+        await broadcastPresence();
+        await syncAttemptToCloud('Paused');
+      }
+      switchView('entry');
+    };
+
+    function closePauseModal() {
+      document.getElementById('pause-modal').classList.add('hidden');
+    }
+
+    function updateHeaderQuizBadge() {
+      const pill = document.getElementById('header-set-pill');
+      const badge = document.getElementById('poll-attempt-badge');
+      if (state.activeQuizId === 2) {
+        pill.textContent = 'QUIZ 2 (120 Qs)';
+        badge.textContent = 'Quiz 2 • 120 Questions (Bank #121–240)';
+      } else {
+        pill.textContent = 'QUIZ 1 (120 Qs)';
+        badge.textContent = 'Quiz 1 • 120 Questions (Bank #1–120)';
+      }
+      document.getElementById('header-room-subtitle').textContent = `Room: ${state.roomCode} • 4 Sections × 30 Qs`;
+      document.getElementById('poll-total-time-pill').textContent = `Time: ${formatDuration(state.totalElapsedSeconds)}`;
+    }
+
+    function startTotalElapsedClock() {
+      if (state.totalClockInterval) clearInterval(state.totalClockInterval);
+      state.totalClockInterval = setInterval(() => {
+        if (!state.joined || state.isPaused || state.view !== 'poll') return;
+        state.totalElapsedSeconds += 1;
+        document.getElementById('poll-total-time-pill').textContent = `Time: ${formatDuration(state.totalElapsedSeconds)}`;
+        if (state.totalElapsedSeconds % 5 === 0) {
+          saveCurrentQuizProgressLocally('Live');
+        }
+      }, 1000);
+    }
+
+    function startFortySecondQuestionTimer(preserveRemainingSeconds = false) {
+      if (state.qTimerInterval) clearInterval(state.qTimerInterval);
+      const qIdx = state.currentIndex;
+      const alreadyAnswered = state.answers[qIdx] !== undefined;
+
+      const bar = document.getElementById('q-timer-bar');
+      const txt = document.getElementById('q-timer-text');
+      const badge = document.getElementById('q-timer-badge');
+
+      if (alreadyAnswered) {
+        state.qSecondsLeft = 0;
+        bar.style.width = '0%';
+        bar.className = 'h-full bg-emerald-500';
+        txt.textContent = 'Answered';
+        badge.className = 'px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0';
+        return;
+      }
+
+      if (!preserveRemainingSeconds || state.qSecondsLeft <= 0 || state.qSecondsLeft > 40) {
+        state.qSecondsLeft = 40;
+      }
+
+      const initialPct = Math.max(0, (state.qSecondsLeft / 40) * 100);
+      bar.style.width = `${initialPct}%`;
+      bar.className = state.qSecondsLeft <= 10 ? 'h-full bg-rose-500 transition-all duration-1000 ease-linear' : 'h-full bg-sky-500 transition-all duration-1000 ease-linear';
+      txt.textContent = `${state.qSecondsLeft}s`;
+      badge.className = 'px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-800 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0';
+
+      if (state.isPaused) return;
+
+      state.qTimerInterval = setInterval(() => {
+        if (state.isPaused || state.view !== 'poll' || state.answers[qIdx] !== undefined) {
+          clearInterval(state.qTimerInterval);
+          return;
+        }
+        state.qSecondsLeft -= 1;
+        const pct = Math.max(0, (state.qSecondsLeft / 40) * 100);
+        bar.style.width = `${pct}%`;
+        txt.textContent = `${Math.max(0, state.qSecondsLeft)}s`;
+
+        if (state.qSecondsLeft <= 10) {
+          bar.className = 'h-full bg-rose-500 transition-all duration-1000 ease-linear';
+          badge.className = 'px-3 py-1 rounded-full bg-rose-50 border border-rose-300 text-rose-700 font-mono text-xs font-extrabold flex items-center gap-1.5 shrink-0 animate-pulse';
+        }
+
+        if (state.qSecondsLeft <= 0) {
+          clearInterval(state.qTimerInterval);
+          state.answers[qIdx] = -1;
+          renderPollQuestion();
+          syncAttemptToCloud('Live');
+        }
+      }, 1000);
+    }
+
+    // =========================================================================
+    // 5. TELEGRAM POLL QUESTION RENDERING (RAW PEOPLE COUNTS, NO PERCENTAGES)
+    // =========================================================================
+    function renderPollQuestion(preserveTimer = false) {
+      const qList = getActiveQuestionList();
+      const idx = state.currentIndex;
+      const q = qList[idx];
+      state.currentSection = q.sectionIdx;
+
+      const userAns = state.answers[idx];
+      const isRevealed = userAns !== undefined;
+      const counts = (state.voteCounts[state.activeQuizId] && state.voteCounts[state.activeQuizId][idx]) || [0, 0, 0, 0];
+      const totalPeople = counts.reduce((acc, n) => acc + n, 0);
+
+      for (let s = 0; s < 4; s++) {
+        let secAns = 0;
+        for (let k = s * 30; k < (s + 1) * 30; k++) {
+          if (state.answers[k] !== undefined && state.answers[k] >= 0) secAns++;
+        }
+        document.getElementById(`sec-count-${s}`).textContent = `${secAns}/30`;
+        const tab = document.getElementById(`sec-tab-${s}`);
+        if (s === state.currentSection) {
+          tab.className = 'p-2.5 rounded-xl border text-left transition bg-sky-600 text-white border-sky-600 shadow-sm';
+          tab.querySelector('div').className = 'flex items-center justify-between text-[10px] font-extrabold uppercase text-sky-100';
+        } else {
+          tab.className = 'p-2.5 rounded-xl border text-left transition bg-white text-slate-700 border-slate-200 hover:border-sky-400';
+          tab.querySelector('div').className = 'flex items-center justify-between text-[10px] font-extrabold uppercase text-slate-400';
+        }
+      }
+
+      let cCount = 0;
+      let wCount = 0;
+      Object.entries(state.answers).forEach(([qiStr, oiVal]) => {
+        const oi = Number(oiVal);
+        if (oi >= 0) {
+          if (qList[Number(qiStr)].correct === oi) cCount++;
+          else wCount++;
+        }
+      });
+      const net = (cCount * 1.33 - wCount * 0.33).toFixed(2);
+      document.getElementById('poll-score-pill').textContent = `Score: ${net} (${cCount}✓ / ${wCount}✕)`;
+      document.getElementById('poll-answered-total').textContent = cCount + wCount;
+
+      document.getElementById('poll-q-number').textContent = `Quiz ${state.activeQuizId} • Q. ${idx + 1} / 120`;
+      document.getElementById('poll-q-meta').textContent = `Section ${q.sectionIdx + 1}: ${q.sectionName} (Q.${q.localNum}/30)`;
+      document.getElementById('poll-q-text').textContent = q.question;
+
+      const box = document.getElementById('poll-options-box');
+      box.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      q.options.forEach((optText, optIdx) => {
+        const peopleHit = counts[optIdx] || 0;
+        const barWidthPct = totalPeople > 0 ? Math.round((peopleHit / totalPeople) * 100) : 0;
+        const isCorrect = optIdx === q.correct;
+        const isUserPick = optIdx === userAns;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.disabled = isRevealed;
+
+        if (!isRevealed) {
+          btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-400 transition flex items-center gap-3 group cursor-pointer';
+          btn.innerHTML = `
+            <span class="w-7 h-7 rounded-full border-2 border-slate-300 group-hover:border-sky-600 text-xs font-extrabold text-slate-600 group-hover:text-sky-700 flex items-center justify-center shrink-0 transition">
+              ${letters[optIdx]}
+            </span>
+            <span class="text-sm sm:text-base font-medium text-slate-900 leading-snug">${escapeHtml(optText)}</span>
+          `;
+          btn.onclick = () => handleOptionClick(optIdx);
+        } else {
+          let borderCls = 'border-slate-200 bg-slate-50/80';
+          let fillCls = 'bg-slate-200/60';
+          let badgeColor = 'text-slate-600';
+          let iconHtml = `<span class="w-7 h-7 rounded-full bg-slate-200 text-slate-700 text-xs font-extrabold flex items-center justify-center shrink-0">${letters[optIdx]}</span>`;
+
+          if (isCorrect) {
+            borderCls = 'border-emerald-500 bg-emerald-50/60';
+            fillCls = 'bg-emerald-200/55';
+            badgeColor = 'text-emerald-800 font-extrabold';
+            iconHtml = `
+              <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+            `;
+          } else if (isUserPick) {
+            borderCls = 'border-rose-500 bg-rose-50/60';
+            fillCls = 'bg-rose-200/55';
+            badgeColor = 'text-rose-800 font-extrabold';
+            iconHtml = `
+              <span class="w-7 h-7 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </span>
+            `;
+          }
+
+          const personWord = peopleHit === 1 ? 'person' : 'people';
+          const youPill = isUserPick ? `<span class="ml-1.5 px-1.5 py-0.5 rounded bg-slate-900 text-white text-[10px] font-bold uppercase">You</span>` : '';
+
+          btn.className = `relative w-full text-left p-3.5 sm:p-4 rounded-xl border ${borderCls} overflow-hidden transition cursor-default`;
+          btn.innerHTML = `
+            <div class="poll-bar-fill absolute inset-y-0 left-0 ${fillCls} pointer-events-none" style="width: ${barWidthPct}%"></div>
+            <div class="relative z-10 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                ${iconHtml}
+                <span class="text-sm sm:text-base font-semibold text-slate-900 leading-snug">
+                  ${escapeHtml(optText)}${youPill}
+                </span>
+              </div>
+              <div class="shrink-0 pl-2 text-right">
+                <span class="px-2.5 py-1 rounded-full bg-white/90 border border-slate-200 text-xs ${badgeColor} shadow-xs">
+                  ${peopleHit} ${personWord}
+                </span>
+              </div>
+            </div>
+          `;
+        }
+
+        box.appendChild(btn);
+      });
+
+      const expBox = document.getElementById('poll-explanation-box');
+      const verdictLbl = document.getElementById('poll-verdict-label');
+      const expTxt = document.getElementById('poll-explanation-text');
+
+      if (isRevealed) {
+        expBox.classList.remove('hidden');
+        if (userAns === -1) {
+          verdictLbl.className = 'text-xs font-extrabold uppercase tracking-wider text-amber-700';
+          verdictLbl.textContent = `⏱ Time Up (40s) • Correct Option: (${letters[q.correct]})`;
+        } else if (userAns === q.correct) {
+          verdictLbl.className = 'text-xs font-extrabold uppercase tracking-wider text-emerald-700';
+          verdictLbl.textContent = `✓ Right Answer! (+1.33 Marks)`;
+        } else {
+          verdictLbl.className = 'text-xs font-extrabold uppercase tracking-wider text-rose-700';
+          verdictLbl.textContent = `✕ Wrong Answer (-0.33 Marks) • Right Answer: (${letters[q.correct]})`;
+        }
+        expTxt.textContent = q.explanation;
+      } else {
+        expBox.classList.add('hidden');
+      }
+
+      const totalWord = totalPeople === 1 ? 'person' : 'people';
+      document.getElementById('poll-total-people').textContent = `${totalPeople} ${totalWord} answered this question`;
+      document.getElementById('poll-hint-text').textContent = isRevealed
+        ? 'Answered! Click "Next Question →" anytime'
+        : 'Select an option within 40 seconds';
+
+      document.getElementById('btn-prev-q').disabled = idx === 0;
+      document.getElementById('btn-next-q').textContent = idx === 119 ? 'Submit & View Scoreboard →' : 'Next Question →';
+
+      renderPaletteGrid();
+      startFortySecondQuestionTimer(preserveTimer);
+    }
+
+    async function handleOptionClick(optIdx) {
+      const idx = state.currentIndex;
+      if (state.answers[idx] !== undefined) return;
+
+      if (state.qTimerInterval) clearInterval(state.qTimerInterval);
+      state.answers[idx] = optIdx;
+      state.voteCounts[state.activeQuizId][idx][optIdx] += 1;
+
+      renderPollQuestion();
+      await syncAttemptToCloud('Live');
+    }
+
+    window.moveQuestion = async function (delta) {
+      const next = state.currentIndex + delta;
+      if (next < 0) return;
+      if (next >= 120) {
+        await finishAttemptAndShowScoreboard();
+        return;
+      }
+      state.currentIndex = next;
+      state.currentSection = Math.floor(next / 30);
+      saveCurrentQuizProgressLocally('Live');
+      renderPollQuestion(false);
+      await broadcastPresence();
+    };
+
+    window.switchSection = async function (secIdx) {
+      state.currentSection = secIdx;
+      state.currentIndex = secIdx * 30;
+      saveCurrentQuizProgressLocally('Live');
+      renderPollQuestion(false);
+      await broadcastPresence();
+    };
+
+    window.togglePaletteDrawer = function () {
+      document.getElementById('palette-drawer').classList.toggle('hidden');
+      renderPaletteGrid();
+    };
+
+    function renderPaletteGrid() {
+      const s = state.currentSection;
+      const start = s * 30;
+      const qList = getActiveQuestionList();
+      document.getElementById('palette-section-title').textContent = `Section ${s + 1}: ${SECTION_NAMES[s]} (Q.${start + 1}–${start + 30})`;
+
+      const grid = document.getElementById('palette-grid');
+      grid.innerHTML = '';
+      for (let i = start; i < start + 30; i++) {
+        const ans = state.answers[i];
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = i + 1;
+        let cls = 'h-8 rounded-lg text-xs font-bold transition ';
+        if (ans === undefined) {
+          cls += 'bg-slate-100 text-slate-600 hover:bg-sky-100';
+        } else if (ans === -1) {
+          cls += 'bg-amber-400 text-slate-950';
+        } else if (ans === qList[i].correct) {
+          cls += 'bg-emerald-600 text-white';
+        } else {
+          cls += 'bg-rose-600 text-white';
+        }
+        if (i === state.currentIndex) cls += ' ring-2 ring-sky-600 scale-105';
+        b.className = cls;
+        b.onclick = async () => {
+          state.currentIndex = i;
+          saveCurrentQuizProgressLocally('Live');
+          renderPollQuestion(false);
+          document.getElementById('palette-drawer').classList.add('hidden');
+          await broadcastPresence();
+        };
+        grid.appendChild(b);
+      }
+    }
+
+    window.finishAttemptAndShowScoreboard = async function () {
+      if (state.qTimerInterval) clearInterval(state.qTimerInterval);
+      if (state.totalClockInterval) clearInterval(state.totalClockInterval);
+      state.isPaused = true;
+      saveCurrentQuizProgressLocally('Completed');
+      await syncAttemptToCloud('Completed');
+      state.scoreboardFilter = state.activeQuizId;
+      switchView('scoreboard');
+      showToast(`Quiz ${state.activeQuizId} submitted! View your rank on the Common Scoreboard.`, 'success');
+    };
+
+    // =========================================================================
+    // 6. COMMON SCOREBOARD & INDIVIDUAL DETAILED SCORECARD
+    // =========================================================================
+    window.switchView = function (viewName, preserveTimer = false) {
+      state.view = viewName;
+      ['entry', 'poll', 'scoreboard', 'detail'].forEach((v) => {
+        document.getElementById(`view-${v}`).classList.toggle('hidden', v !== viewName);
+      });
+
+      const pollBtn = document.getElementById('nav-btn-poll');
+      pollBtn.classList.toggle('hidden', !state.joined);
+
+      if (viewName === 'entry') {
+        renderDashboardCards();
+        renderEntryMiniScoreboard();
+      } else if (viewName === 'poll') {
+        state.isPaused = false;
+        startTotalElapsedClock();
+        renderPollQuestion(preserveTimer);
+      } else if (viewName === 'scoreboard') {
+        renderScoreboard();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.setScoreboardFilter = function (filterVal) {
+      state.scoreboardFilter = filterVal;
+      ['all', 1, 2].forEach((k) => {
+        const el = document.getElementById(`sb-filter-${k}`);
+        if (!el) return;
+        if (k === filterVal) {
+          el.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold bg-white text-slate-900 shadow-xs';
+        } else {
+          el.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900';
+        }
+      });
+      renderScoreboard();
+    };
+
+    function getFilteredScoreboardRecords() {
+      if (state.scoreboardFilter === 'all') return state.allAttempts;
+      return state.allAttempts.filter((r) => r.quizId === Number(state.scoreboardFilter));
+    }
+
+    function renderEntryMiniScoreboard() {
+      const box = document.getElementById('entry-mini-scoreboard');
+      const top6 = state.allAttempts.slice(0, 6);
+      if (top6.length === 0) {
+        box.innerHTML = `<div class="col-span-full text-xs text-slate-400 py-5 text-center bg-slate-50 rounded-xl border border-dashed border-slate-200">No attempts recorded yet in Room <strong>${escapeHtml(state.roomCode)}</strong>. Start Quiz 1 or Quiz 2 above!</div>`;
+        return;
+      }
+
+      box.innerHTML = top6
+        .map(
+          (r, i) => `
+          <button type="button" onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-sky-50 border border-slate-200 text-left transition">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="w-6 h-6 rounded-full font-extrabold text-xs flex items-center justify-center shrink-0 ${
+                i === 0 ? 'bg-amber-400 text-slate-950' : 'bg-slate-200 text-slate-700'
+              }">#${i + 1}</span>
+              <div class="truncate">
+                <div class="text-xs font-bold text-slate-900 truncate">${escapeHtml(r.userName)}</div>
+                <div class="text-[10px] text-slate-500">Quiz ${r.quizId} • ${r.answered}/120 Qs • ${formatDuration(r.timeTakenSeconds)}</div>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-xs font-extrabold text-emerald-700">${r.netScore.toFixed(2)}</div>
+              <div class="text-[10px] text-sky-600 font-bold">Details →</div>
+            </div>
+          </button>
+        `
+        )
+        .join('');
+    }
+
+    function renderScoreboard() {
+      const filtered = getFilteredScoreboardRecords();
+      const filterLabel = state.scoreboardFilter === 'all' ? 'All Quizzes' : `Quiz ${state.scoreboardFilter} (120 Qs)`;
+      document.getElementById('sb-title').textContent = `Common Scoreboard (${filterLabel}) — Room ${state.roomCode}`;
+
+      const podium = document.getElementById('sb-podium');
+      const tbody = document.getElementById('sb-tbody');
+      podium.innerHTML = '';
+      tbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        podium.innerHTML = `
+          <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-8 text-center">
+            <h3 class="text-base font-bold text-slate-800">No Participants Yet for ${filterLabel}</h3>
+            <p class="text-xs text-slate-500 mt-1">Go to the Quiz Dashboard to start Quiz 1 or Quiz 2.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const podiumStyles = [
+        { label: 'Rank #1', border: 'border-amber-400', pill: 'bg-amber-400 text-slate-950' },
+        { label: 'Rank #2', border: 'border-slate-300', pill: 'bg-slate-200 text-slate-800' },
+        { label: 'Rank #3', border: 'border-orange-300', pill: 'bg-orange-200 text-orange-950' }
+      ];
+
+      podiumStyles.forEach((st, idx) => {
+        const r = filtered[idx];
+        if (!r) return;
+        const card = document.createElement('div');
+        card.className = `bg-white rounded-2xl border-2 ${st.border} p-4 shadow-sm flex flex-col justify-between`;
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold ${st.pill}">${st.label}</span>
+              <span class="text-xs font-mono font-bold text-slate-500">⏱ ${formatDuration(r.timeTakenSeconds)}</span>
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 truncate">${escapeHtml(r.userName)}</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Quiz ${r.quizId} • ${r.correct}✓ / ${r.wrong}✕ (${r.answered}/120 Qs)</p>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-lg font-extrabold text-emerald-700">${r.netScore.toFixed(2)} <span class="text-xs font-normal text-slate-400">pts</span></span>
+            <button onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold">
+              Scorecard
+            </button>
+          </div>
+        `;
+        podium.appendChild(card);
+      });
+
+      filtered.forEach((r, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition-colors';
+        const statusCls =
+          r.status === 'Completed'
+            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            : r.status === 'Paused'
+            ? 'bg-amber-50 text-amber-800 border-amber-200'
+            : 'bg-sky-50 text-sky-700 border-sky-200';
+
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 font-extrabold text-slate-900">#${idx + 1}</td>
+          <td class="py-3.5 px-4">
+            <div class="font-bold text-slate-900">${escapeHtml(r.userName)}</div>
+            <div class="text-[11px] text-slate-500">${r.correct} Correct • ${r.wrong} Wrong (${r.answered}/120)</div>
+          </td>
+          <td class="py-3.5 px-4 text-center">
+            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-bold">Quiz ${r.quizId}</span>
+          </td>
+          <td class="py-3.5 px-4 text-center">
+            <span class="px-2 py-0.5 rounded-full border text-[11px] font-bold ${statusCls}">${escapeHtml(r.status)}</span>
+          </td>
+          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[0].toFixed(2)}</td>
+          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[1].toFixed(2)}</td>
+          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[2].toFixed(2)}</td>
+          <td class="py-3.5 px-4 text-center font-semibold text-slate-700">${r.secScores[3].toFixed(2)}</td>
+          <td class="py-3.5 px-4 text-center font-mono font-bold text-slate-700">${formatDuration(r.timeTakenSeconds)}</td>
+          <td class="py-3.5 px-4 text-right font-extrabold text-emerald-700 text-base">${r.netScore.toFixed(2)}</td>
+          <td class="py-3.5 px-4 text-right">
+            <button onclick="openAttemptDetail('${escapeHtml(r.docId)}')" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold">
+              View
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.openAttemptDetail = function (docId) {
+      const rankIdx = state.allAttempts.findIndex((r) => r.docId === docId);
+      if (rankIdx < 0) return;
+      const r = state.allAttempts[rankIdx];
+      const qList = QUESTION_SETS[r.quizId] || QUESTION_SETS[1];
+      const letters = ['A', 'B', 'C', 'D'];
+
+      const container = document.getElementById('detail-card-container');
+      container.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200 text-xs font-extrabold">
+              Overall Rank #${rankIdx + 1} • Quiz ${r.quizId} (${r.quizId === 2 ? 'Bank Q.121–240' : 'Bank Q.1–120'})
+            </span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">${escapeHtml(r.userName)}</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Status: <strong>${escapeHtml(r.status)}</strong> • Time Taken: <strong>${formatDuration(r.timeTakenSeconds)}</strong> • Answered: ${r.answered}/120</p>
+          </div>
+          <div class="flex items-center gap-4 bg-slate-900 text-white px-5 py-3 rounded-xl">
+            <div class="text-center pr-4 border-r border-slate-700">
+              <div class="text-[10px] uppercase text-slate-400">Rank</div>
+              <div class="text-xl font-extrabold text-amber-400">#${rankIdx + 1}</div>
+            </div>
+            <div class="text-center">
+              <div class="text-[10px] uppercase text-slate-400">Net Score</div>
+              <div class="text-xl font-extrabold text-emerald-400">${r.netScore.toFixed(2)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          ${SECTION_NAMES.map(
+            (sName, sIdx) => `
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-[11px] font-extrabold uppercase text-slate-400">Section ${sIdx + 1} (30 Qs)</div>
+              <div class="text-xs font-bold text-slate-800 truncate mt-0.5">${escapeHtml(sName)}</div>
+              <div class="text-base font-extrabold text-sky-700 mt-1">${r.secScores[sIdx].toFixed(2)} pts</div>
+            </div>
+          `
+          ).join('')}
+        </div>
+
+        <div class="space-y-3 pt-2">
+          <h3 class="text-sm font-extrabold text-slate-900">Answered Questions Breakdown</h3>
+          ${
+            Object.keys(r.answers).length === 0
+              ? `<p class="text-xs text-slate-500 bg-slate-50 p-4 rounded-xl border border-dashed border-slate-200">No answers recorded yet for this quiz.</p>`
+              : Object.entries(r.answers)
+                  .sort((a, b) => Number(a[0]) - Number(b[0]))
+                  .map(([qiStr, oiVal]) => {
+                    const qi = Number(qiStr);
+                    const oi = Number(oiVal);
+                    const qObj = qList[qi];
+                    const ok = oi === qObj.correct;
+                    return `
+                      <div class="p-3.5 rounded-xl border ${ok ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'} text-xs space-y-1">
+                        <div class="flex justify-between font-bold">
+                          <span class="text-slate-700">Q.${qi + 1} (${escapeHtml(qObj.sectionName)})</span>
+                          <span class="${ok ? 'text-emerald-700' : 'text-rose-700'}">
+                            ${oi === -1 ? 'Timed Out' : ok ? `✓ Picked (${letters[oi]}) +1.33` : `✕ Picked (${letters[oi]}) • Correct (${letters[qObj.correct]}) -0.33`}
+                          </span>
+                        </div>
+                        <p class="font-semibold text-slate-900 whitespace-pre-line">${escapeHtml(qObj.question)}</p>
+                        <p class="text-slate-600"><strong>Explanation:</strong> ${escapeHtml(qObj.explanation)}</p>
+                      </div>
+                    `;
+                  })
+                  .join('')
+          }
+        </div>
+      `;
+
+      switchView('detail');
+    };
+
+    window.copyRoomInviteLink = function () {
+      const shareUrl = new URL(window.location.href);
+      shareUrl.searchParams.set('room', state.roomCode);
+      const msg = `Join my Live UPPSC Quiz Poll (Room: ${state.roomCode}) — 4 Sections × 30 Qs (25 Yrs PYQs & Chronology)! Link: ${shareUrl.toString()}`;
+      const ta = document.createElement('textarea');
+      ta.value = msg;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast(`Room ${state.roomCode} link copied! Share with your friends.`, 'success');
+    };
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const styles = {
+        success: 'bg-emerald-600 text-white border-emerald-500',
+        error: 'bg-rose-600 text-white border-rose-500',
+        info: 'bg-slate-900 text-white border-slate-700'
+      };
+      el.className = `${styles[type] || styles.info} px-4 py-3 rounded-xl shadow-lg border text-xs sm:text-sm font-semibold pointer-events-auto`;
+      el.textContent = message;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 250ms ease';
+        setTimeout(() => el.remove(), 250);
+      }, 3200);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initFirebase();
+    });
+  </script>
+</body>
+</html>
